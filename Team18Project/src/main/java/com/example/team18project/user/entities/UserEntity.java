@@ -3,6 +3,7 @@ package com.example.team18project.user.entities;
 import com.example.team18project.gym.entities.GymEntity;
 import com.example.team18project.gym.entities.Gym_rateEntity;
 import com.example.team18project.gym.entities.Trainer_boardEntity;
+import com.example.team18project.rental.entities.Rental_ArticleEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -54,6 +55,9 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     private List<Gym_rateEntity> gym_rates = new ArrayList<>();
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user")
     private List<Trainer_boardEntity> trainer_boards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Rental_ArticleEntity> rentalArticles = new ArrayList<>();
 }
