@@ -1,7 +1,11 @@
-package com.example.team18project.user;
+package com.example.team18project.user.entities;
 
+import com.example.team18project.gym.entities.GymEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -41,4 +45,7 @@ public class UserEntity {
     private Integer role;
 
     private String verification_img;
+
+    @OneToMany(mappedBy = "user")
+    private List<GymEntity> gyms = new ArrayList<>();
 }
