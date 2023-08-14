@@ -11,6 +11,10 @@ import com.example.team18project.free_board.entities.Free_Article_LikesEntity;
 import com.example.team18project.gym.entities.GymEntity;
 import com.example.team18project.gym.entities.Gym_rateEntity;
 import com.example.team18project.gym.entities.Trainer_boardEntity;
+import com.example.team18project.health_inform.entities.Health_Inform_ArticleEntity;
+import com.example.team18project.health_inform.entities.Health_Inform_CommentEntity;
+import com.example.team18project.health_inform.entities.Health_Inform_LikesEntity;
+import com.example.team18project.health_inform.entities.Health_inform_DislikesEntity;
 import com.example.team18project.rental.entities.Rental_ArticleEntity;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -93,4 +97,16 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Diet_Inform_LikesEntity> dietInformLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Health_Inform_ArticleEntity> healthInformArticles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Health_Inform_CommentEntity> healthInformComments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Health_inform_DislikesEntity> healthInformDislikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Health_Inform_LikesEntity> healthInformLikes = new ArrayList<>();
 }

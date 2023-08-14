@@ -18,7 +18,7 @@ public class Free_Article_CommentEntity {
 
     @ManyToOne
     @JoinColumn(name = "free_article_id")
-    private Free_ArticleEntity freeArticle;
+    private Free_ArticleEntity free_article;
 
     private String content;
 

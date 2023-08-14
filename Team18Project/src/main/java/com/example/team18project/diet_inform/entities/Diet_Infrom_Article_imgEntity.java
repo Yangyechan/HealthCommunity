@@ -14,7 +14,7 @@ public class Diet_Infrom_Article_imgEntity {
 
     @ManyToOne
     @JoinColumn(name = "diet_inform_article_id")
-    private Diet_Inform_ArticleEntity dietInformArticle;
+    private Diet_Inform_ArticleEntity diet_inform_article;
 
     private String img_url;
 }

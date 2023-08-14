@@ -13,7 +13,7 @@ public class Free_Article_imgEntity {
 
     @ManyToOne
     @JoinColumn(name = "free_article_id")
-    private Free_ArticleEntity freeArticle;
+    private Free_ArticleEntity free_article;
 
     private String img_url;
 }
