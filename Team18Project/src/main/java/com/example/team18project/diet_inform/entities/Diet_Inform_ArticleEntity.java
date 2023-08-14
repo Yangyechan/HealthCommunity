@@ -1,4 +1,4 @@
-package com.example.team18project.free_board.entities;
+package com.example.team18project.diet_inform.entities;
 
 import com.example.team18project.user.entities.UserEntity;
 import jakarta.persistence.*;
@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "free_article_comment")
-public class Free_Article_CommentEntity {
+@Table(name = "diet_inform_article")
+public class Diet_Inform_ArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,9 +16,7 @@ public class Free_Article_CommentEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @ManyToOne
-    @JoinColumn(name = "free_article_id")
-    private Free_ArticleEntity freeArticle;
+    private String title;
 
     private String content;
 

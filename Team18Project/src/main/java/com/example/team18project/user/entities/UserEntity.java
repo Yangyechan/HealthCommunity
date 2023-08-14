@@ -1,5 +1,9 @@
 package com.example.team18project.user.entities;
 
+import com.example.team18project.diet_inform.entities.Diet_Inform_ArticleEntity;
+import com.example.team18project.diet_inform.entities.Diet_Inform_CommentEntity;
+import com.example.team18project.diet_inform.entities.Diet_Inform_DislikesEntity;
+import com.example.team18project.diet_inform.entities.Diet_Inform_LikesEntity;
 import com.example.team18project.free_board.entities.Free_ArticleEntity;
 import com.example.team18project.free_board.entities.Free_Article_CommentEntity;
 import com.example.team18project.free_board.entities.Free_Article_DislikesEntity;
@@ -77,4 +81,16 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Free_Article_LikesEntity> freeArticleLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Diet_Inform_ArticleEntity> dietInformArticles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Diet_Inform_CommentEntity> dietInformComments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Diet_Inform_DislikesEntity> dietInformDislikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Diet_Inform_LikesEntity> dietInformLikes = new ArrayList<>();
 }
