@@ -1,5 +1,9 @@
 package com.example.team18project.user.entities;
 
+import com.example.team18project.free_board.entities.Free_ArticleEntity;
+import com.example.team18project.free_board.entities.Free_Article_CommentEntity;
+import com.example.team18project.free_board.entities.Free_Article_DislikesEntity;
+import com.example.team18project.free_board.entities.Free_Article_LikesEntity;
 import com.example.team18project.gym.entities.GymEntity;
 import com.example.team18project.gym.entities.Gym_rateEntity;
 import com.example.team18project.gym.entities.Trainer_boardEntity;
@@ -47,11 +51,11 @@ public class UserEntity {
 
     private Integer role;
 
-    private String verification_img;
-
     @ManyToOne
     @JoinColumn(name = "gym_id")
     private GymEntity gym;
+
+    private String verification_img;
 
     @OneToMany(mappedBy = "user")
     private List<Gym_rateEntity> gym_rates = new ArrayList<>();
@@ -61,4 +65,16 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Rental_ArticleEntity> rentalArticles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Free_ArticleEntity> freeArticles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Free_Article_DislikesEntity> freeArticleDislikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Free_Article_CommentEntity> freeArticleComments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Free_Article_LikesEntity> freeArticleLikes = new ArrayList<>();
 }
