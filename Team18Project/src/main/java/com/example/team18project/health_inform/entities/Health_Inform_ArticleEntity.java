@@ -36,8 +36,8 @@ public class Health_Inform_ArticleEntity {
     private List<Health_inform_DislikesEntity> healthInformDislikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "health_inform_article")
-    private List<Diet_Infrom_Article_imgEntity> healthArticleImgs = new ArrayList<>();
+    private List<Health_Inform_Article_imgEntity> healthArticleImgs = new ArrayList<>();
 
     @OneToMany(mappedBy = "health_inform_article")
-    private List<Diet_Inform_LikesEntity> healthInformLikes = new ArrayList<>();
+    private List<Health_Inform_LikesEntity> healthInformLikes = new ArrayList<>();
 }
