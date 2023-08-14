@@ -49,8 +49,9 @@ public class UserEntity {
 
     private String verification_img;
 
-    @OneToMany(mappedBy = "user")
-    private List<GymEntity> gyms = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "gym_id")
+    private GymEntity gym;
 
     @OneToMany(mappedBy = "user")
     private List<Gym_rateEntity> gym_rates = new ArrayList<>();

@@ -15,15 +15,14 @@ public class GymEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-
     private String location;
 
     private String created_at;
 
     private String identity_code;
+
+    @OneToMany(mappedBy = "gym")
+    private List<UserEntity> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "gym")
     private List<Gym_rateEntity> gym_rates = new ArrayList<>();
