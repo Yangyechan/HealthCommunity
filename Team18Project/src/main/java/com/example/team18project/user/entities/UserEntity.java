@@ -1,6 +1,6 @@
-package com.example.team18project.DB.user.entities;
+package com.example.team18project.user.entities;
 
-import com.example.team18project.DB.gym.entities.GymEntity;
+import com.example.team18project.gym.entities.GymEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.ArrayList;
