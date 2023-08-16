@@ -1,7 +1,7 @@
 package com.example.team18project.security.details;
 
-import com.example.team18project.user.entities.UserEntity;
-import com.example.team18project.user.repos.UserRepository;
+import com.example.team18project.category.user.entities.UserEntity;
+import com.example.team18project.category.user.repos.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;

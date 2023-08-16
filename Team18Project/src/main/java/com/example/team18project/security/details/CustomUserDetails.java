@@ -1,6 +1,6 @@
 package com.example.team18project.security.details;
 
-import com.example.team18project.user.entities.UserEntity;
+import com.example.team18project.category.user.entities.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
