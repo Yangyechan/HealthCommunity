@@ -1,7 +1,7 @@
 package com.example.team18project.security.details;
 
-import com.example.team18project.DB.user.entities.UserEntity;
-import com.example.team18project.DB.user.repos.UserRepository;
+import com.example.team18project.user.entities.UserEntity;
+import com.example.team18project.user.repos.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,7 +45,7 @@ public class JpaUserDetailsManager implements UserDetailsManager {
         if (this.userExists(user.getUsername())) {
             log.info("이미 해당 아이디가 있습니다.");
             return;
-            // throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+
         }
         try {
             userRepository.save(

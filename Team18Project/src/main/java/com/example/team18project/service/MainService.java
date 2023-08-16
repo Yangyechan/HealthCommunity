@@ -1,8 +1,7 @@
 package com.example.team18project.service;
 
-import com.example.team18project.DB.gym.entities.GymEntity;
-import com.example.team18project.DB.gym.repos.GymRepository;
-import com.example.team18project.DB.user.repos.UserRepository;
+import com.example.team18project.gym.entities.GymEntity;
+import com.example.team18project.gym.repos.GymRepository;
 import com.example.team18project.security.details.CustomUserDetails;
 import com.example.team18project.security.details.JpaUserDetailsManager;
 import com.example.team18project.security.dto.LoginDto;

@@ -1,8 +1,8 @@
-package com.example.team18project.DB.gym.entities;
-import com.example.team18project.DB.user.entities.UserEntity;
+package com.example.team18project.gym.entities;
+import com.example.team18project.user.entities.UserEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+
 
 // 관장이 우리 사이트 홍보물을 보고 전화를 한다. -> 우리가 고유번호를 생성해서 gym 테이블에 넣어준다.
 @Data
