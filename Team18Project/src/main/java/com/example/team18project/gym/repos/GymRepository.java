@@ -1,6 +1,6 @@
-package com.example.team18project.DB.gym.repos;
+package com.example.team18project.gym.repos;
 
-import com.example.team18project.DB.gym.entities.GymEntity;
+import com.example.team18project.gym.entities.GymEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
