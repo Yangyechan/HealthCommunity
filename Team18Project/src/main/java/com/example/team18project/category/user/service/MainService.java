@@ -2,6 +2,8 @@ package com.example.team18project.category.user.service;
 
 import com.example.team18project.category.gym.entities.GymEntity;
 import com.example.team18project.category.gym.repos.GymRepository;
+import com.example.team18project.category.user.entities.UserEntity;
+import com.example.team18project.category.user.repos.UserRepository;
 import com.example.team18project.security.details.CustomUserDetails;
 import com.example.team18project.security.details.JpaUserDetailsManager;
 import com.example.team18project.security.dto.LoginDto;
@@ -24,17 +26,22 @@ public class MainService {
     // DI 의존성 주입
     public MainService(
             GymRepository gymRepository,
+            UserRepository userRepository,
             UserDetailsManager manager,
             JpaUserDetailsManager userDetailsManager,
             PasswordEncoder passwordEncoder,
             JwtTokenUtils jwtTokenUtils) {
 
         this.gymRepository = gymRepository;
+        this.userRepository = userRepository;
         this.manager = manager;
         this.userDetailsManager = userDetailsManager;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenUtils = jwtTokenUtils;
     }
+
+    private final UserRepository userRepository;
+
     private final UserDetailsManager manager;
     private final JwtTokenUtils jwtTokenUtils;
     private final GymRepository gymRepository;
@@ -93,6 +100,17 @@ public class MainService {
                 .role("트레이너")
                 .build()
         );
+
+        // User(트레이너) <- Gym 관계 설정
+
+        Optional<UserEntity> userEntity = userRepository.findByUsername(dto.getUsername());
+
+        UserEntity user = userEntity.get();
+
+        user.setGym(gymEntity.get());
+
+        userRepository.save(user);
+
     }
     // 로그인
     public String login(LoginDto dto){

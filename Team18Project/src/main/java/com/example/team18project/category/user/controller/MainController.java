@@ -23,7 +23,6 @@ public class MainController {
     }
     private final MainService mainService;
 
-
     // 회원가입
     @PostMapping("/sign-up")
     @ResponseBody
