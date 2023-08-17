@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Slf4j
@@ -26,6 +26,7 @@ public class MainController {
 
     // 회원가입
     @PostMapping("/sign-up")
+    @ResponseBody
     public String registerUser(@Valid @RequestBody RegisterDto dto){
 
         if(dto.getPassword().equals(dto.getPasswordCheck())){
@@ -53,8 +54,15 @@ public class MainController {
 
     // 로그인
     @PostMapping("/login")
+    @ResponseBody
     public String generateJWT(@Valid @RequestBody LoginDto dto){
 
         return mainService.login(dto);
     }
 }
+
+// 0. 현재까지 진행상황 확인
+// 1. GYM 정보 Identity code 는 관리자가 직접 넣어준다.
+// 2. 등급제를
+// 3. db 관련 얘기
+// 4. 각자 맡은 카테고리 진행
