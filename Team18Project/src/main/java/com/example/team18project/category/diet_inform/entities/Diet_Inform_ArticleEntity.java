@@ -4,6 +4,7 @@ import com.example.team18project.category.user.entities.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Diet_Inform_ArticleEntity {
 
     private String content;
 
-    private String created_at;
+    private LocalDateTime created_at;
 
     @OneToMany(mappedBy = "diet_inform_article")
     private List<Diet_Inform_CommentEntity> dietInformComments = new ArrayList<>();

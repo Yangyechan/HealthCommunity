@@ -4,6 +4,8 @@ import com.example.team18project.category.user.entities.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Entity
 @Table(name = "challenge_comment")
@@ -22,5 +24,5 @@ public class Challenge_CommentEntity {
 
     private String content;
 
-    private String created_at;
+    private LocalDateTime created_at;
 }

@@ -4,6 +4,7 @@ import com.example.team18project.category.user.entities.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Challenge_ArticleEntity {
 
     private String content;
 
-    private String created_at;
+    private LocalDateTime created_at;
 
     @OneToMany(mappedBy = "challenge_article")
     private List<Challenge_Article_imgEntity> challengeArticleImgs = new ArrayList<>();
