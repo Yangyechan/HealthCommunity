@@ -85,19 +85,19 @@ public class ChallengeService {
 
         // 사용자 검증
         if (user.isPresent() && !optionalArticle.get().getUser().getUsername().equals(username)) {
-            Optional<Challenge_LikesEntity> likeArticle = challengeLikesRepository.findByUserAndArticle(user.get(), optionalArticle.get());
+            Optional<Challenge_LikesEntity> likeArticle = challengeLikesRepository.findByUserAndChallengeArticle(user.get(), optionalArticle.get());
             if (!likeArticle.isPresent()) {
                 // 좋아요 새로 생성
-                Like_ArticleEntity likeArticleEntity = new Like_ArticleEntity();
+                Challenge_LikesEntity likeArticleEntity = new Challenge_LikesEntity();
                 likeArticleEntity.setUser(user.get());
-                likeArticleEntity.setArticle(optionalArticle.get());
-                likeArticleRepository.save(likeArticleEntity);
-                response.setMessage("좋아요");
+                likeArticleEntity.setChallengeArticle(optionalArticle.get());
+                challengeLikesRepository.save(likeArticleEntity);
+                response.setResponse("좋아요");
                 return response;
             } else {
                 // 좋아요 취소
-                likeArticleRepository.deleteById(likeArticle.get().getId());
-                response.setMessage("좋아요 취소");
+                challengeLikesRepository.deleteById(likeArticle.get().getId());
+                response.setResponse("좋아요 취소");
                 return response;
             }
         }else {

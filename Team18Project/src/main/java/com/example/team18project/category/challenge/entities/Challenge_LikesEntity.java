@@ -18,5 +18,5 @@ public class Challenge_LikesEntity {
 
     @ManyToOne
     @JoinColumn(name = "challenge_article_id")
-    private Challenge_ArticleEntity challenge_article;
+    private Challenge_ArticleEntity challengeArticle;
 }

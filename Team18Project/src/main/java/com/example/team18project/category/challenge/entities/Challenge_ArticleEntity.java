@@ -26,12 +26,12 @@ public class Challenge_ArticleEntity {
 
     private LocalDateTime created_at;
 
-    @OneToMany(mappedBy = "challenge_article")
+    @OneToMany(mappedBy = "challengeArticle")
     private List<Challenge_Article_imgEntity> challengeArticleImgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "challenge_article")
+    @OneToMany(mappedBy = "challengeArticle")
     private List<Challenge_CommentEntity> challengeComments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "challenge_article")
+    @OneToMany(mappedBy = "challengeArticle")
     private List<Challenge_LikesEntity> challengeLikes = new ArrayList<>();
 }

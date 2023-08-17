@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface Challenge_LikesRepository extends JpaRepository<Challenge_LikesEntity, Long> {
-    Optional<Challenge_LikesEntity> findByUserAndArticle(UserEntity user, Challenge_ArticleEntity article);
+    Optional<Challenge_LikesEntity> findByUserAndChallengeArticle(UserEntity user, Challenge_ArticleEntity article);
 }
