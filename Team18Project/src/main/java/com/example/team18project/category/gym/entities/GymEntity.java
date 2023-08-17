@@ -3,6 +3,7 @@ import com.example.team18project.category.user.entities.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class GymEntity {
     @Column(nullable = false, unique = true)
     private String location;
 
-    private String created_at;
+    private LocalDateTime created_at;
 
     @Column(unique = true)
     private String phone;

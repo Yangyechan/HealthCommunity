@@ -4,6 +4,8 @@ import com.example.team18project.category.user.entities.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Entity
 @Table(name = "bulk_inform_comment")
@@ -22,5 +24,5 @@ public class Bulk_Inform_CommentEntity {
 
     private String content;
 
-    private String created_at;
+    private LocalDateTime created_at;
 }
