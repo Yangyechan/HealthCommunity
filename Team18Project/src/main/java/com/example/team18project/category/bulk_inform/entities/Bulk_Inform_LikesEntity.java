@@ -18,5 +18,5 @@ public class Bulk_Inform_LikesEntity {
 
     @ManyToOne
     @JoinColumn(name = "bulk_inform_article_id")
-    private Bulk_Inform_ArticleEntity bulk_inform_article;
+    private Bulk_Inform_ArticleEntity bulkInformArticle;
 }

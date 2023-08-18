@@ -26,15 +26,15 @@ public class Health_Inform_ArticleEntity {
 
     private LocalDateTime created_at;
 
-    @OneToMany(mappedBy = "health_inform_article")
+    @OneToMany(mappedBy = "healthInformArticle")
     private List<Health_Inform_CommentEntity> healthInformComments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "health_inform_article")
+    @OneToMany(mappedBy = "healthInformArticle")
     private List<Health_inform_DislikesEntity> healthInformDislikes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "health_inform_article")
+    @OneToMany(mappedBy = "healthInformArticle")
     private List<Health_Inform_Article_imgEntity> healthArticleImgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "health_inform_article")
+    @OneToMany(mappedBy = "healthInformArticle")
     private List<Health_Inform_LikesEntity> healthInformLikes = new ArrayList<>();
 }

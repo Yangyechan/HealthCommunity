@@ -26,12 +26,12 @@ public class Bulk_Inform_ArticleEntity {
 
     private LocalDateTime created_at;
 
-    @OneToMany(mappedBy = "bulk_inform_article")
+    @OneToMany(mappedBy = "bulkInformArticle")
     private List<Bulk_Inform_Article_imgEntity> bulkInformArticleImgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "bulk_inform_article")
+    @OneToMany(mappedBy = "bulkInformArticle")
     private List<Bulk_Inform_CommentEntity> bulkInformComments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "bulk_inform_article")
+    @OneToMany(mappedBy = "bulkInformArticle")
     private List<Bulk_Inform_LikesEntity> bulkInformLikes = new ArrayList<>();
 }

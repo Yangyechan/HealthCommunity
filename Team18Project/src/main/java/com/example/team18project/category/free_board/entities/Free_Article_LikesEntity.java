@@ -18,5 +18,5 @@ public class Free_Article_LikesEntity {
 
     @ManyToOne
     @JoinColumn(name = "free_article_id")
-    private Free_ArticleEntity free_article;
+    private Free_ArticleEntity freeArticle;
 }

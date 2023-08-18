@@ -13,7 +13,7 @@ public class Health_Inform_Article_imgEntity {
 
     @ManyToOne
     @JoinColumn(name = "health_inform_article_id")
-    private Health_Inform_ArticleEntity health_inform_article;
+    private Health_Inform_ArticleEntity healthInformArticle;
 
     private String img_url;
 }

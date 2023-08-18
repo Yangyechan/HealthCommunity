@@ -46,7 +46,7 @@ public class UserEntity {
 
     private String address;   // 주소
 
-    private String profile_img; // 개인 프로필
+    private String profileImg; // 개인 프로필
 
     private String email;  //  ex) example@naver.com
 

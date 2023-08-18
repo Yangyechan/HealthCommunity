@@ -18,5 +18,5 @@ public class Health_Inform_LikesEntity {
 
     @ManyToOne
     @JoinColumn(name = "health_inform_article_id")
-    private Health_Inform_ArticleEntity health_inform_article;
+    private Health_Inform_ArticleEntity healthInformArticle;
 }
