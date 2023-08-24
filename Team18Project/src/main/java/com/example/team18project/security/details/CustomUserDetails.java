@@ -70,7 +70,7 @@ import java.util.Collection;
                     .address(entity.getAddress())
                     .email(entity.getEmail())
                     .phone(entity.getPhone())
-                    .profile_img(entity.getProfile_img())
+                    .profile_img(entity.getProfileImg())
                     .birth(entity.getBirth())
                     .gender(entity.getGender())
                     .grade(entity.getGrade())
@@ -87,7 +87,7 @@ import java.util.Collection;
             entity.setAddress(address);
             entity.setEmail(email);
             entity.setPhone(phone);
-            entity.setProfile_img(profile_img);
+            entity.setProfileImg(profile_img);
             entity.setBirth(birth);
             entity.setGender(gender);
             entity.setBorder(border);

@@ -20,7 +20,7 @@ public class Challenge_CommentEntity {
 
     @ManyToOne
     @JoinColumn(name = "challenge_article_id")
-    private Challenge_ArticleEntity challenge_article;
+    private Challenge_ArticleEntity challengeArticle;
 
     private String content;
 

@@ -26,15 +26,15 @@ public class Free_ArticleEntity {
 
     private LocalDateTime created_at;
 
-    @OneToMany(mappedBy = "free_article")
+    @OneToMany(mappedBy = "freeArticle")
     private List<Free_Article_CommentEntity> freeArticleComments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "free_article")
+    @OneToMany(mappedBy = "freeArticle")
     private List<Free_Article_DislikesEntity> freeArticleDislikes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "free_article")
+    @OneToMany(mappedBy = "freeArticle")
     private List<Free_Article_imgEntity> freeArticleImgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "free_article")
+    @OneToMany(mappedBy = "freeArticle")
     private List<Free_Article_LikesEntity> freeArticleLikes = new ArrayList<>();
 }
