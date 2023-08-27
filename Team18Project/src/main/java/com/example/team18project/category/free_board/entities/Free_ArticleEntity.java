@@ -2,6 +2,7 @@ package com.example.team18project.category.free_board.entities;
 
 import com.example.team18project.category.user.entities.UserEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -20,8 +21,10 @@ public class Free_ArticleEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    @NotBlank
     private String title;
 
+    @NotBlank
     private String content;
 
     private LocalDateTime created_at;
@@ -29,8 +32,6 @@ public class Free_ArticleEntity {
     @OneToMany(mappedBy = "freeArticle")
     private List<Free_Article_CommentEntity> freeArticleComments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "freeArticle")
-    private List<Free_Article_DislikesEntity> freeArticleDislikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "freeArticle")
     private List<Free_Article_imgEntity> freeArticleImgs = new ArrayList<>();

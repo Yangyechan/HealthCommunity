@@ -55,7 +55,6 @@ public class MainController {
     @PostMapping("/login")
     @ResponseBody
     public String generateJWT(@Valid @RequestBody LoginDto dto){
-
         return mainService.login(dto);
     }
 }

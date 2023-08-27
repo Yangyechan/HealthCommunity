@@ -12,7 +12,6 @@ import com.example.team18project.category.diet_inform.entities.Diet_Inform_Disli
 import com.example.team18project.category.diet_inform.entities.Diet_Inform_LikesEntity;
 import com.example.team18project.category.free_board.entities.Free_ArticleEntity;
 import com.example.team18project.category.free_board.entities.Free_Article_CommentEntity;
-import com.example.team18project.category.free_board.entities.Free_Article_DislikesEntity;
 import com.example.team18project.category.free_board.entities.Free_Article_LikesEntity;
 import com.example.team18project.category.gym.entities.GymEntity;
 import com.example.team18project.category.gym.entities.Gym_rateEntity;
@@ -20,7 +19,6 @@ import com.example.team18project.category.gym.entities.Trainer_boardEntity;
 import com.example.team18project.category.health_inform.entities.Health_Inform_ArticleEntity;
 import com.example.team18project.category.health_inform.entities.Health_Inform_CommentEntity;
 import com.example.team18project.category.health_inform.entities.Health_Inform_LikesEntity;
-import com.example.team18project.category.health_inform.entities.Health_inform_DislikesEntity;
 import com.example.team18project.category.rental.entities.Rental_ArticleEntity;
 import jakarta.persistence.*;
 import lombok.Data;

@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.Optional;
 
 @Slf4j
@@ -41,7 +40,6 @@ public class MainService {
     }
 
     private final UserRepository userRepository;
-
     private final UserDetailsManager manager;
     private final JwtTokenUtils jwtTokenUtils;
     private final GymRepository gymRepository;
@@ -100,9 +98,7 @@ public class MainService {
                 .role("트레이너")
                 .build()
         );
-
         // User(트레이너) <- Gym 관계 설정
-
         Optional<UserEntity> userEntity = userRepository.findByUsername(dto.getUsername());
 
         UserEntity user = userEntity.get();
@@ -110,11 +106,10 @@ public class MainService {
         user.setGym(gymEntity.get());
 
         userRepository.save(user);
-
     }
+
     // 로그인
     public String login(LoginDto dto){
-
         UserDetails userDetails = manager.loadUserByUsername(dto.getUsername());
 
         if (!passwordEncoder.matches(dto.getPassword(), userDetails.getPassword()))
@@ -122,4 +117,5 @@ public class MainService {
 
         return jwtTokenUtils.generateToken(userDetails);
     }
+
 }

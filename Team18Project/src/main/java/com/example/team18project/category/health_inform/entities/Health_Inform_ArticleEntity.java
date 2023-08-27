@@ -2,6 +2,7 @@ package com.example.team18project.category.health_inform.entities;
 
 import com.example.team18project.category.user.entities.UserEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -20,17 +21,20 @@ public class Health_Inform_ArticleEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    @NotBlank
     private String title;
 
+    @NotBlank
     private String content;
+
+    @NotBlank
+    private String tag; // 추가
 
     private LocalDateTime created_at;
 
     @OneToMany(mappedBy = "healthInformArticle")
     private List<Health_Inform_CommentEntity> healthInformComments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "healthInformArticle")
-    private List<Health_inform_DislikesEntity> healthInformDislikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "healthInformArticle")
     private List<Health_Inform_Article_imgEntity> healthArticleImgs = new ArrayList<>();
