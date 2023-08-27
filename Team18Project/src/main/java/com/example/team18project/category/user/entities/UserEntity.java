@@ -1,15 +1,8 @@
 package com.example.team18project.category.user.entities;
 
-import com.example.team18project.category.bulk_inform.entities.Bulk_Inform_ArticleEntity;
-import com.example.team18project.category.bulk_inform.entities.Bulk_Inform_CommentEntity;
-import com.example.team18project.category.bulk_inform.entities.Bulk_Inform_LikesEntity;
 import com.example.team18project.category.challenge.entities.Challenge_ArticleEntity;
 import com.example.team18project.category.challenge.entities.Challenge_CommentEntity;
 import com.example.team18project.category.challenge.entities.Challenge_LikesEntity;
-import com.example.team18project.category.diet_inform.entities.Diet_Inform_ArticleEntity;
-import com.example.team18project.category.diet_inform.entities.Diet_Inform_CommentEntity;
-import com.example.team18project.category.diet_inform.entities.Diet_Inform_DislikesEntity;
-import com.example.team18project.category.diet_inform.entities.Diet_Inform_LikesEntity;
 import com.example.team18project.category.free_board.entities.Free_ArticleEntity;
 import com.example.team18project.category.free_board.entities.Free_Article_CommentEntity;
 import com.example.team18project.category.free_board.entities.Free_Article_LikesEntity;
@@ -77,25 +70,10 @@ public class UserEntity {
     private List<Free_ArticleEntity> freeArticles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Free_Article_DislikesEntity> freeArticleDislikes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
     private List<Free_Article_CommentEntity> freeArticleComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Free_Article_LikesEntity> freeArticleLikes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<Diet_Inform_ArticleEntity> dietInformArticles = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<Diet_Inform_CommentEntity> dietInformComments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<Diet_Inform_DislikesEntity> dietInformDislikes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<Diet_Inform_LikesEntity> dietInformLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Health_Inform_ArticleEntity> healthInformArticles = new ArrayList<>();
@@ -104,19 +82,7 @@ public class UserEntity {
     private List<Health_Inform_CommentEntity> healthInformComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Health_inform_DislikesEntity> healthInformDislikes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
     private List<Health_Inform_LikesEntity> healthInformLikes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<Bulk_Inform_ArticleEntity> bulkInformArticles = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<Bulk_Inform_CommentEntity> bulkInformComments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<Bulk_Inform_LikesEntity> bulkInformLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Challenge_ArticleEntity> challengeArticles = new ArrayList<>();
