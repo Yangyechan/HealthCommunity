@@ -28,7 +28,7 @@ public class Health_Inform_ArticleEntity {
     private String content;
 
     @NotBlank
-    private String tag; // 추가
+    private String tag; // 추가 기타 공지사항 다이어트 벌크업
 
     private LocalDateTime created_at;
 

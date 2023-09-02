@@ -3,6 +3,7 @@ package com.example.team18project.security.jwt;
 import com.example.team18project.security.details.CustomUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -23,27 +24,30 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     public JwtTokenFilter(JwtTokenUtils jwtTokenUtils) {
         this.jwtTokenUtils = jwtTokenUtils;
     }
+
+    // CRSF 공격이나 XSS 공격
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        // JWT가 포함되어 있으면 포함되어 있는 헤더를 요청
-        String authHeader
-                = request.getHeader(HttpHeaders.AUTHORIZATION);
-        // authHeader가 null이 아니면서 "Bearer " 로 구성되어 있어야
-        // 정상적인 인증 정보다.
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            // JWT를 회수하여 JWT가 정상적인 JWT인지를 판단한다.
-            String token = authHeader.split(" ")[1];
-            if (jwtTokenUtils.validate(token)) {
-                // 웹상의 많은 예시
-//                SecurityContextHolder.getContext().setAuthentication();
-                // Security 공식 문서 추천
-                SecurityContext context
-                        = SecurityContextHolder.createEmptyContext();
-                // JWT에서 사용자 이름을 가져오기
+
+        // 쿠키에서 토큰 가져오기
+        Cookie[] cookies = request.getCookies();
+        String Token = null;
+        if (cookies != null){
+            for (Cookie cookie : cookies) {
+                if ("jwtToken".equals(cookie.getName())) {
+                    Token = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        if (Token != null){
+            String token = Token;
+            if (jwtTokenUtils.validate(token)){
+                SecurityContext context = SecurityContextHolder.createEmptyContext();
                 String username = jwtTokenUtils
                         .parseClaims(token)
                         .getSubject();
@@ -55,16 +59,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                                 .build(),
                         token, new ArrayList<>()
                 );
-                // SecurityContext에 사용자 정보 설정
                 context.setAuthentication(authenticationToken);
-                // SecurityContextHolder에 SecurityContext 설정
                 SecurityContextHolder.setContext(context);
                 log.info("set security context with jwt");
             }
-            // 아니라면 log.warn을 통해 알린다.
-            else {
-                log.warn("jwt validation failed");
-            }
+            else { log.warn("jwt validation failed");}
         }
         filterChain.doFilter(request, response);
     }
