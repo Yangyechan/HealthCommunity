@@ -1,10 +1,6 @@
 package com.example.team18project.category.rental.controller;
 
-import com.example.team18project.category.health_inform.dto.Comment_Dto;
-import com.example.team18project.category.health_inform.entities.Health_Inform_ArticleEntity;
-import com.example.team18project.category.health_inform.entities.Health_Inform_Article_imgEntity;
-import com.example.team18project.category.health_inform.entities.Health_Inform_CommentEntity;
-import com.example.team18project.category.health_inform.entities.Health_Inform_LikesEntity;
+import com.example.team18project.category.rental.dto.Comment_Dto;
 import com.example.team18project.category.rental.chat.jpa.ChatMessageEntity;
 import com.example.team18project.category.rental.chat.jpa.ChatMessageRepository;
 import com.example.team18project.category.rental.chat.jpa.ChatRoomEntity;
