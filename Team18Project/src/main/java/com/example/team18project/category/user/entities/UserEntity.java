@@ -13,6 +13,7 @@ import com.example.team18project.category.health_inform.entities.Health_Inform_A
 import com.example.team18project.category.health_inform.entities.Health_Inform_CommentEntity;
 import com.example.team18project.category.health_inform.entities.Health_Inform_LikesEntity;
 import com.example.team18project.category.rental.entities.Rental_ArticleEntity;
+import com.example.team18project.category.rental.entities.Rental_CommentEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.ArrayList;
@@ -92,4 +93,9 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Challenge_LikesEntity> challengeLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Rental_CommentEntity> rentalComments = new ArrayList<>();
+
+
 }
