@@ -11,6 +11,7 @@ import com.example.team18project.security.dto.RegisterDto;
 import com.example.team18project.security.jwt.JwtTokenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -47,10 +48,10 @@ public class MainService {
     private final JpaUserDetailsManager userDetailsManager;
 
     // 일반 회원 등록
-    public void userRegister(RegisterDto dto){
+    public ResponseEntity<String> userRegister(RegisterDto dto){
 
         if(userDetailsManager.userExists(dto.getUsername())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "user already exists");
+            return ResponseEntity.badRequest().body("User already exists");
         }
 
         manager.createUser(CustomUserDetails.builder()
@@ -68,21 +69,22 @@ public class MainService {
                 .build()
         );
 
+        return ResponseEntity.ok("일반회원 registration successful");
     }
 
     // 헬스장 트레이너 등록
-    public void gymRegister(RegisterDto dto){
+    public ResponseEntity gymRegister(RegisterDto dto){
 
         String identity_code = dto.getIdentityCode();
 
         Optional<GymEntity> gymEntity = gymRepository.findByIdentityCode(identity_code);
 
         if(gymEntity.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "can't find gym identity code");
+            return ResponseEntity.notFound().build();
         }
 
         if(userDetailsManager.userExists(dto.getUsername())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "user already exists");
+            return ResponseEntity.badRequest().body("User already exists");
         }
         manager.createUser(CustomUserDetails.builder()
                 .username(dto.getUsername())
@@ -106,6 +108,7 @@ public class MainService {
         user.setGym(gymEntity.get());
 
         userRepository.save(user);
+        return ResponseEntity.ok("헬스트레이너 registration successful");
     }
 
     // 로그인

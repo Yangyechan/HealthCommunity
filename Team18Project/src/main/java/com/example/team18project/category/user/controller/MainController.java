@@ -3,13 +3,15 @@ package com.example.team18project.category.user.controller;
 import com.example.team18project.security.dto.LoginDto;
 import com.example.team18project.security.dto.RegisterDto;
 import com.example.team18project.category.user.service.MainService;
+import com.example.team18project.security.jwt.JwtTokenUtils;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 @Slf4j
@@ -18,45 +20,82 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MainController {
 
     // DI 의존성 주입
-    public MainController(MainService mainService) {
+    public MainController(MainService mainService, UserDetailsManager manager, PasswordEncoder passwordEncoder
+                          , JwtTokenUtils jwtTokenUtils) {
         this.mainService = mainService;
+        this.manager = manager;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtTokenUtils = jwtTokenUtils;
     }
     private final MainService mainService;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenUtils jwtTokenUtils;
+    private final UserDetailsManager manager;
+
+    // 메인페이지 view
+    @GetMapping
+    public String mainPage(){
+        return "main";
+    }
+
+    // 회원가입 view
+    @GetMapping("/sign-up")
+    public String registerPage(){
+        return "sign-up";
+    }
+
 
     // 회원가입
     @PostMapping("/sign-up")
     @ResponseBody
-    public String registerUser(@Valid @RequestBody RegisterDto dto){
+    public ResponseEntity<String> registerUser(@Valid @RequestBody RegisterDto dto){
 
         if(dto.getPassword().equals(dto.getPasswordCheck())){
             log.info("password match!");
 
             // 1. 일반 유저
             if (dto.getIdentityCode() == null){
-                mainService.userRegister(dto);
-                return "일반회원 등록완료";
+               return mainService.userRegister(dto);
             }
 
             // 2. 트레이너, 관장 identity_code 필요 관리자가 직접 넣어준다.
             if (dto.getIdentityCode() != null){
-                mainService.gymRegister(dto);
-                return "헬스트레이너 등록완료";
+                return mainService.gymRegister(dto);
             }
         }
-        else return "회원가입 실패";
+        else  return ResponseEntity.badRequest().body("Password and passwordCheck do not match");
 
-        return "회원가입 실패";
-
-        // 3. admin 관리자는 서버에서 직접 넣어준다 mySQL서버에서 role(string) admin
-        // 4. 헬스장 관장 또한 서버에서 직접 넣어준다.
+        return ResponseEntity.badRequest().body("Bad Request");
     }
 
-    // 로그인
+    // 로그인 view
+    @GetMapping("/login")
+    public String loginPage(){
+
+        return "login";
+    }
     @PostMapping("/login")
-    @ResponseBody
-    public String generateJWT(@Valid @RequestBody LoginDto dto){
-        return mainService.login(dto);
+    public ResponseEntity<String> loginPost(@Valid @RequestBody LoginDto loginForm){
+
+        UserDetails userDetails = manager.loadUserByUsername(loginForm.getUsername());
+
+        if(!passwordEncoder.matches(loginForm.getPassword(), userDetails.getPassword())) {
+            log.info("Password incorrect"); // 잘못된 비밀번호
+            return ResponseEntity.badRequest().body("Password incorrect");
+        }
+
+        String jwt = jwtTokenUtils.generateToken(userDetails);
+
+        // 로그인 성공하면 토큰 실어서 응답하기
+        return ResponseEntity.ok(jwt);
+
     }
+    // 인증된 메인 페이지
+    @GetMapping("/auth")
+    public String mainAuthPage() {
+        return "mainAuth";
+    }
+
 }
 
 // 0. 현재까지 진행상황 확인
