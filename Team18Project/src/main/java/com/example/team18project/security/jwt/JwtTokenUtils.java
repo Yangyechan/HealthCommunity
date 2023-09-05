@@ -64,7 +64,7 @@ public class JwtTokenUtils {
                 // 사용자 정보 등록
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(Date.from(Instant.now()))
-                .setExpiration(Date.from(Instant.now().plusSeconds(3600))); // 토큰의 유효시간
+                .setExpiration(Date.from(Instant.now().plusSeconds(3600))); // 토큰의 유효시간 1시간
 
         return Jwts.builder()
                 .setClaims(jwtClaims)

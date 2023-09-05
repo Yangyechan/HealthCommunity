@@ -1,17 +1,26 @@
 package com.example.team18project.category.user.controller;
 
+import com.example.team18project.category.user.entities.UserEntity;
+import com.example.team18project.category.user.repos.UserRepository;
+import com.example.team18project.security.details.CustomUserDetails;
 import com.example.team18project.security.dto.LoginDto;
 import com.example.team18project.security.dto.RegisterDto;
 import com.example.team18project.category.user.service.MainService;
 import com.example.team18project.security.jwt.JwtTokenUtils;
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 @Slf4j
@@ -21,12 +30,14 @@ public class MainController {
 
     // DI 의존성 주입
     public MainController(MainService mainService, UserDetailsManager manager, PasswordEncoder passwordEncoder
-                          , JwtTokenUtils jwtTokenUtils) {
+                          , JwtTokenUtils jwtTokenUtils, UserRepository userRepository) {
         this.mainService = mainService;
         this.manager = manager;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenUtils = jwtTokenUtils;
+        this.userRepository = userRepository;
     }
+    private final UserRepository userRepository;
     private final MainService mainService;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtils jwtTokenUtils;
@@ -95,6 +106,46 @@ public class MainController {
     public String mainAuthPage() {
         return "mainAuth";
     }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<String> refreshAuthToken(HttpServletRequest request) {
+        // 쿠키에서 토큰을 가져오기
+        Cookie[] cookies = request.getCookies();
+        String token = null;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("jwtToken".equals(cookie.getName())) {
+                    token = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        if (token != null && jwtTokenUtils.validate(token)) {
+            Claims claims = jwtTokenUtils.parseClaims(token);
+            long currentTime = System.currentTimeMillis() / 1000;
+            long expirationTime = claims.getExpiration().getTime() / 1000;
+
+            // 토큰 만료시간보다 15분 적으면
+            if (expirationTime - currentTime <= 900) {
+
+                String username = SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getName();
+
+                Optional<UserEntity> userEntity = userRepository.findByUsername(username);
+                UserEntity user = userEntity.get();
+
+                CustomUserDetails userDetails = CustomUserDetails.fromEntity(user);
+                // 토큰을 재발급
+                String newToken = jwtTokenUtils.generateToken(userDetails);
+                return ResponseEntity.ok(newToken);
+            }
+        }
+
+        return ResponseEntity.badRequest().body("토큰 재발급 필요x");
+    }
+
 
 }
 
