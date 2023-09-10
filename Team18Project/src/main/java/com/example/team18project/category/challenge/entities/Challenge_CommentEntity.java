@@ -25,4 +25,6 @@ public class Challenge_CommentEntity {
     private String content;
 
     private LocalDateTime created_at;
+
+    private String img_url;
 }
