@@ -78,7 +78,6 @@ import java.util.Collection;
                     .role(entity.getRole())
                     .build();
         }
-
         public UserEntity newEntity() {
             UserEntity entity = new UserEntity();
             entity.setUsername(username);
@@ -94,6 +93,4 @@ import java.util.Collection;
             entity.setRole(role);
             return entity;
         }
-
-
 }

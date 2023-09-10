@@ -1,13 +1,16 @@
 package com.example.team18project.category.gym.entities;
 
+
 import com.example.team18project.category.user.entities.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Entity
-@Table(name = "gym_rate")
-public class Gym_rateEntity {
+@Table(name = "TrainerComment")
+public class Trainer_board_CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,9 +20,11 @@ public class Gym_rateEntity {
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "gym_id")
-    private GymEntity gym;
+    @JoinColumn(name = "trainer_id")
+    private Trainer_boardEntity trainer;
 
-    private Integer rate;
+    private String comment;
+
+    private LocalDateTime createdAt;
 
 }

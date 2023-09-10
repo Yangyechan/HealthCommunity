@@ -1,4 +1,4 @@
-package com.example.team18project.config;
+package com.example.team18project.security.config;
 import com.example.team18project.security.jwt.JwtTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

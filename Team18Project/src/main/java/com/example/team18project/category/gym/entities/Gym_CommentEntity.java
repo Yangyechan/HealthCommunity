@@ -4,10 +4,13 @@ import com.example.team18project.category.user.entities.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Entity
-@Table(name = "gym_rate")
-public class Gym_rateEntity {
+@Table(name = "GymComment")
+public class Gym_CommentEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,6 +23,7 @@ public class Gym_rateEntity {
     @JoinColumn(name = "gym_id")
     private GymEntity gym;
 
-    private Integer rate;
+    private String content;
 
+    private LocalDateTime createdAt;
 }

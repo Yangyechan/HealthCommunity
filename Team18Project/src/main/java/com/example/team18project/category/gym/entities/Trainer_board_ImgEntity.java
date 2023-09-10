@@ -5,15 +5,16 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "GymImages")
-public class Gym_imgEntity {
+@Table(name = "TrainerImages")
+public class Trainer_board_ImgEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "gym_id")
-    private GymEntity gym;
+    @JoinColumn(name = "trainer_id")
+    private Trainer_boardEntity trainer;
 
-    private String img_url;
+    private String imgUrl;
+
 }

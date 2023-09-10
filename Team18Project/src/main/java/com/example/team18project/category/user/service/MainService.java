@@ -65,7 +65,7 @@ public class MainService {
                 .gender(dto.getGender())
                 .grade("default") // 등급제 어떻게 해야할지
                 .border("black")
-                .role("일반회원")
+                .role("general")
                 .build()
         );
 
@@ -97,7 +97,7 @@ public class MainService {
                 .gender(dto.getGender())
                 .grade("default")
                 .border("red")
-                .role("트레이너")
+                .role("trainer")
                 .build()
         );
         // User(트레이너) <- Gym 관계 설정

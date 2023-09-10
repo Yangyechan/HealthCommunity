@@ -52,7 +52,10 @@ public class UserEntity {
 
     private String border; // 테두리 1. 일반회원 검은색 2. 전문가 빨간색 3. 관리자 초록색
 
-    private String role;   // 1. 일반회원 2. 트레이너 3. 관장  4. 관리자
+    private String role;
+    // 1. 일반회원  2. 트레이너 3. 관장   4. 관리자
+    // 1. general 2. trainer 3. enema 4. admin
+    private String identityCode; // 고유 번호
 
     @ManyToOne
     @JoinColumn(name = "gym_id")
