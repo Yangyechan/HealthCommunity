@@ -17,6 +17,7 @@ public class Free_ArticleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
@@ -27,6 +28,8 @@ public class Free_ArticleEntity {
     @NotBlank
     private String content;
 
+    private String tag;
+
     private LocalDateTime created_at;
 
     @OneToMany(mappedBy = "freeArticle")
@@ -36,6 +39,5 @@ public class Free_ArticleEntity {
     @OneToMany(mappedBy = "freeArticle")
     private List<Free_Article_imgEntity> freeArticleImgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "freeArticle")
-    private List<Free_Article_LikesEntity> freeArticleLikes = new ArrayList<>();
+
 }

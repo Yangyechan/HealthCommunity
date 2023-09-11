@@ -1,5 +1,4 @@
 package com.example.team18project.category.free_board.repos;
-
 import com.example.team18project.category.free_board.entities.Free_Article_CommentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
