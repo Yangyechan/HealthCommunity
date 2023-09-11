@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Profile</title>
+</head>
+<body>
+<h1>My Profile</h1>
+
+<form id="update-form">
+  <input type="email" name="email" placeholder="Email">
+  <input type="tel" name="phone" placeholder="Phone">
+  <input type="text" id="address" name="address" placeholder="Address">
+  <button type="button" id="find-address">주소 찾기</button>
+  <button type="submit">Update</button>
+</form>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+  window.onload = function () {
+    document.getElementById("find-address").addEventListener("click", function () {
+      new daum.Postcode({
+        oncomplete: function (data) {
+          document.getElementById("address").value = data.address;
+          document.querySelector('input[name="address"]').value = data.address;
+        },
+      }).open();
+    });
+
+    document.getElementById("update-form").addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const token = "YOUR_JWT_TOKEN"; // 실제로 사용할 JWT 토큰
+      const data = {
+        email: document.querySelector('input[name="email"]').value,
+        phone: document.querySelector('input[name="phone"]').value,
+        address: document.querySelector('input[name="address"]').value,
+      };
+
+      try {
+        const response = await fetch("/main/profile/update", {
+          method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          alert("정보가 업데이트 되었습니다.");
+          window.location.href = "/main/profile";
+        } else {
+          console.error("Update failed:", response.status);
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    });
+  };
+</script>
+</body>
+</html>
+

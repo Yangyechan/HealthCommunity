@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Profile</title>
+</head>
+<body>
+<h1>My Profile</h1>
+
+<form id="update-form">
+  <input type="file" id="image" name="image" accept="image/*" /> <!-- 이미지 업로드를 위한 input 추가 -->
+  <input type="email" id="email" name="email" placeholder="Email">
+  <input type="tel" id="phone" name="phone" placeholder="Phone">
+  <input type="text" id="address" name="address" placeholder="Address">
+  <button type="button" id="find-address">주소 찾기</button>
+  <button type="submit">Update</button>
+</form>
+
+<img id="preview-image" src="" alt="Uploaded Image" style="max-width: 300px; display: none;">
+<p id="upload-result" style="display: none;"></p>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+  window.onload = function () {
+    const imageInput = document.getElementById("image");
+    const emailInput = document.getElementById("email");
+    const phoneInput = document.getElementById("phone");
+    const addressInput = document.getElementById("address");
+    const previewImage = document.getElementById("preview-image");
+    const uploadResult = document.getElementById("upload-result");
+
+    document.getElementById("find-address").addEventListener("click", function () {
+      new daum.Postcode({
+        oncomplete: function (data) {
+          addressInput.value = data.address;
+        },
+      }).open();
+    });
+
+    imageInput.addEventListener("change", function () {
+      const selectedImage = imageInput.files[0];
+      if (selectedImage) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          previewImage.src = event.target.result;
+          previewImage.style.display = "block";
+        };
+        reader.readAsDataURL(selectedImage);
+      } else {
+        previewImage.src = "";
+        previewImage.style.display = "none";
+      }
+    });
+
+    document.getElementById("update-form").addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const token = "YOUR_JWT_TOKEN"; // 실제로 사용할 JWT 토큰
+      const formData = new FormData();
+      formData.append("image", imageInput.files[0]); // 이미지 파일 추가
+      formData.append("email", emailInput.value);
+      formData.append("phone", phoneInput.value);
+      formData.append("address", addressInput.value);
+
+      try {
+        const response = await fetch("/main/profile/update", {
+          method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+          body: formData,
+        });
+
+        if (response.ok) {
+          const result = await response.text();
+          uploadResult.textContent = result;
+          uploadResult.style.display = "block";
+          // 프로필 이미지 업데이트 후 페이지 새로고침
+          window.location.reload();
+        } else {
+          console.error("Update failed:", response.status);
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    });
+  };
+</script>
+</body>
+</html>
+
