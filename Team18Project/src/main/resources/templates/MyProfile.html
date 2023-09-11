@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+</head>
+<body>
+<h1>My Profile</h1>
+<!-- 사용자의 프로필 사진 표시 -->
+<img th:src="${user.profileImg}" alt="프로필 사진" style="max-width: 300px;">
+
+<!-- 프로필 이미지 삭제 버튼 -->
+<button id="delete-button">프로필 이미지 삭제</button>
+
+<p><strong>Username:</strong> <span th:text="${user.username}">Username</span></p>
+<p><strong>Grade:</strong> <span th:text="${user.grade}">Grade</span></p>
+<p><strong>Email:</strong> <span th:text="${user.email}">Email</span></p>
+<p><strong>Phone:</strong> <span th:text="${user.phone}">Phone</span></p>
+<p><strong>Address:</strong> <span th:text="${user.address}">Address</span></p>
+<button onclick="goToProfile()">프로필 정보 수정</button>
+<button onclick="passwordUpdate()">비밀번호 변경</button>
+
+<h2>프로필 이미지 변경</h2>
+<form id="upload-form">
+    <input type="file" id="images" name="images" accept="image/*">
+    <button type="submit">Upload</button>
+</form>
+
+<img id="preview-image" src="" alt="Uploaded Image" style="max-width: 200px; display: none;">
+<p id="upload-result" style="display: none;"></p>
+
+<script>
+    function goToProfile() {
+        window.location.href = "/main/profile/update";
+    }
+
+    function passwordUpdate() {
+        window.location.href = "/main/profile/password/change";
+    }
+
+    const imageInput = document.getElementById("images");
+    const previewImage = document.getElementById("preview-image");
+    const uploadResult = document.getElementById("upload-result");
+
+    imageInput.addEventListener("change", function () {
+        const selectedImage = imageInput.files[0];
+        if (selectedImage) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                previewImage.src = event.target.result;
+                previewImage.style.display = "block";
+            };
+            reader.readAsDataURL(selectedImage);
+        } else {
+            previewImage.src = "";
+            previewImage.style.display = "none";
+        }
+    });
+
+    document.getElementById("upload-form").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const token = "YOUR_JWT_TOKEN"; // JWT 토큰
+        const formData = new FormData();
+        formData.append("image", imageInput.files[0]);
+
+        try {
+            const response = await fetch("/main/profile/image", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                },
+                body: formData,
+            });
+
+            if (response.ok) {
+                const result = await response.text();
+                uploadResult.textContent = result;
+                uploadResult.style.display = "block";
+
+                // 폼 제출 후 새로고침
+                setTimeout(function () {
+                    location.reload();
+                }, 200); // 0.2초 후에 새로고침
+            } else {
+                console.error("Image upload failed:", response.status);
+            }
+        } catch (error) {
+            console.error("Fetch error:", error);
+        }
+    });
+
+    // 이미지 삭제 버튼 클릭 시 처리
+    document.getElementById("delete-button").addEventListener("click", async function () {
+        const token = "YOUR_JWT_TOKEN"; // JWT 토큰
+
+        try {
+            const response = await fetch("/main/profile/image/delete", {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json", // JSON 형식의 요청을 보냄
+                },
+            });
+
+            if (response.ok) {
+                // 이미지 삭제 후 새로고침
+                setTimeout(function () {
+                    location.reload();
+                }, 200); // 0.2초 후에 새로고침
+            } else {
+                console.error("Image delete failed:", response.status);
+            }
+        } catch (error) {
+            console.error("Fetch error:", error);
+        }
+    });
+
+</script>
+</body>
+</html>
+
