@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>헬스정보 게시판 글 작성</title>
+    <title>헬스 용품 대여 게시판 글 작성</title>
 </head>
 <body>
-<h1>작성 페이지</h1>
-<p>제목, 태그, 내용은 필수 항목입니다. 태그 ex) 기타, 꿀팁</p>
+<h1>헬스 용품 대여  페이지</h1>
+<p>제목,내용은 필수 항목입니다. </p>
 <form id="articleForm" enctype="multipart/form-data">
     <label for="title">제목:</label>
     <input type="text" id="title" name="title" required><br>
@@ -14,8 +14,6 @@
     <label for="tags">태그:</label>
     <select id="tags" name="tags" required>
         <option value="기타">기타</option>
-        <option value="벌크업">벌크업</option>
-        <option value="다이어트">다이어트</option>
         <option value="공지사항" th:if="${#authentication.principal.username == 'admin'}">공지사항</option>
     </select>
 
@@ -45,7 +43,7 @@
     }
     function diet() {
 
-        window.location.href = "/healthInform";
+        window.location.href = "/rental";
     }
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -93,7 +91,7 @@
             content: content,
         };
 
-        const response = await fetch("/healthInform/post", {
+        const response = await fetch("/rental/post", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -114,7 +112,7 @@
             }
 
             try {
-                const responseImage = await fetch("/healthInform/postImages/" + id, {
+                const responseImage = await fetch("/rental/postImages/" + id, {
                     method: "POST",
                     body: formData,
                 });
@@ -132,7 +130,7 @@
 
             console.log("글 작성 성공");
             alert("글 작성이 성공하였습니다.");
-            window.location.href = "/healthInform";
+            window.location.href = "/rental";
 
         } else {
             console.error("글 작성 실패");

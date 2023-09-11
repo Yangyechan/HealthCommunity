@@ -17,7 +17,7 @@
 
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<script src="/static/js/stomp.js"></script>
+<script src="/static/stomp.js"></script>
 <script type="text/javascript">
   let stompClient = null;
   const pathname = window.location.pathname;
@@ -35,7 +35,7 @@
 
   function connect() {
     getRoomName();
-    const socket = new WebSocket('ws://localhost:1213/chatting');
+    const socket = new WebSocket('ws://localhost:8080/chatting');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);

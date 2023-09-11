@@ -12,7 +12,6 @@ import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
 @Configuration
 public class WebSecurityConfig {
-
     private final JwtTokenFilter jwtTokenFilter;
     public WebSecurityConfig(JwtTokenFilter jwtTokenFilter) {
         this.jwtTokenFilter = jwtTokenFilter;
@@ -23,7 +22,7 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authHttp -> authHttp
                         .requestMatchers(
-                                "/main/sign-up", "/main/login", "/main", "/js/**", "/chatting/**", "/gym/markers"
+                                "/main/sign-up", "/main/login", "/main", "/static/**", "/chatting/**", "/gym/markers"
                                 // 회원가입         // 로그인           // 메인 페이지
                         ).permitAll()
                         .anyRequest()
