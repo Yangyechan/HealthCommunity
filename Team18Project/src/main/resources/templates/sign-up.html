@@ -7,17 +7,38 @@
 <body>
 <h1>회원 가입</h1>
 <form id="signup-form" method="post">
-  <label for="username">사용자명:</label>
-  <input type="text" id="username" name="username"><br><br>
+  <label for="username">아이디:</label>
+  <input type="text" id="username" name="username" required><br><br>
+
+  <label for="password">비밀번호:</label>
+  <input type="password" id="password" name="password" required><br><br>
+
+  <label for="passwordCheck">비밀번호 확인:</label>
+  <input type="password" id="passwordCheck" name="passwordCheck" required><br><br>
+
+  <label for="nickname">닉네임:</label>
+  <input type="text" id="nickname" name="nickname" required><br><br>
 
   <label for="email">이메일:</label>
   <input type="email" id="email" name="email"><br><br>
 
-  <label for="password">비밀번호:</label>
-  <input type="password" id="password" name="password"><br><br>
+  <label for="address">주소:</label>
+  <input type="text" id="address" name="address"><br><br>
 
-  <label for="passwordCheck">비밀번호 확인:</label>
-  <input type="password" id="passwordCheck" name="passwordCheck"><br><br>
+  <label for="profile_img">프로필 이미지:</label>
+  <input type="text" id="profile_img" name="profile_img"><br><br>
+
+  <label for="phone">전화번호:</label>
+  <input type="text" id="phone" name="phone"><br><br>
+
+  <label for="birth">생년월일:</label>
+  <input type="text" id="birth" name="birth"><br><br>
+
+  <label for="gender">성별:</label>
+  <input type="text" id="gender" name="gender"><br><br>
+
+  <label for="identityCode">헬스장 고유번호:</label>
+  <input type="text" id="identityCode" name="identityCode"><br><br>
 
   <input type="submit" value="가입하기">
 </form>
@@ -39,9 +60,16 @@
 
     var formData = {
       username: document.getElementById('username').value,
-      email: document.getElementById('email').value,
       password: document.getElementById('password').value,
-      passwordCheck: document.getElementById('passwordCheck').value
+      passwordCheck: document.getElementById('passwordCheck').value,
+      email: document.getElementById('email').value,
+      nickname: document.getElementById('nickname').value,
+      address: document.getElementById('address').value,
+      profile_img: document.getElementById('profile_img').value,
+      phone: document.getElementById('phone').value,
+      birth: document.getElementById('birth').value,
+      gender: document.getElementById('gender').value,
+      identityCode: document.getElementById('identityCode').value
     };
 
     var xhr = new XMLHttpRequest();

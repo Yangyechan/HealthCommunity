@@ -213,7 +213,6 @@ public class ProfileService {
 
     }
 
-
     // 프로필 이미지 삭제
     public ResponseEntity<String> profileImageDeleteService() {
 

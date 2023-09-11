@@ -22,7 +22,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-
+// https 설정
+// 서버에 배포하기 헬스장에 필요한 이미지들 찾기 좌표랑
+// 프론트 코드 다 연결해주기
+// mysql
 @Slf4j
 @Controller
 @RequestMapping("/main")
@@ -63,14 +66,16 @@ public class MainController {
 
         if(dto.getPassword().equals(dto.getPasswordCheck())){
             log.info("password match!");
-
+            log.info(dto.getIdentityCode());
             // 1. 일반 유저
-            if (dto.getIdentityCode() == null){
+            if (dto.getIdentityCode().isEmpty()){
+                log.info("일반유저로 회원가입 시도");
                return mainService.userRegister(dto);
             }
 
             // 2. 트레이너, 관장 identity_code 필요 관리자가 직접 넣어준다.
-            if (dto.getIdentityCode() != null){
+            if (!dto.getIdentityCode().isEmpty()){
+                log.info("트레이너로 회원가입 시도");
                 return mainService.gymRegister(dto);
             }
         }

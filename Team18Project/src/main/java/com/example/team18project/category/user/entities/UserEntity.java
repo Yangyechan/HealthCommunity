@@ -5,7 +5,6 @@ import com.example.team18project.category.challenge.entities.Challenge_CommentEn
 import com.example.team18project.category.challenge.entities.Challenge_LikesEntity;
 import com.example.team18project.category.free_board.entities.Free_ArticleEntity;
 import com.example.team18project.category.free_board.entities.Free_Article_CommentEntity;
-import com.example.team18project.category.free_board.entities.Free_Article_LikesEntity;
 import com.example.team18project.category.gym.entities.GymEntity;
 import com.example.team18project.category.gym.entities.Gym_rateEntity;
 import com.example.team18project.category.gym.entities.Trainer_boardEntity;
@@ -76,8 +75,6 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     private List<Free_Article_CommentEntity> freeArticleComments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Free_Article_LikesEntity> freeArticleLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Health_Inform_ArticleEntity> healthInformArticles = new ArrayList<>();

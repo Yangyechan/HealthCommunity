@@ -51,6 +51,7 @@ public class MainService {
     public ResponseEntity<String> userRegister(RegisterDto dto){
 
         if(userDetailsManager.userExists(dto.getUsername())){
+            log.info("User already exists");
             return ResponseEntity.badRequest().body("User already exists");
         }
 
@@ -69,6 +70,7 @@ public class MainService {
                 .build()
         );
 
+        log.info("successful");
         return ResponseEntity.ok("일반회원 registration successful");
     }
 

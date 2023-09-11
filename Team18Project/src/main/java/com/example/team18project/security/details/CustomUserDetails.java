@@ -28,6 +28,7 @@ import java.util.Collection;
         private String grade;
         private String border;
         private String role;
+        private String identityCode;
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -76,6 +77,7 @@ import java.util.Collection;
                     .grade(entity.getGrade())
                     .border(entity.getBorder())
                     .role(entity.getRole())
+                    .identityCode(entity.getIdentityCode())
                     .build();
         }
         public UserEntity newEntity() {
@@ -91,6 +93,7 @@ import java.util.Collection;
             entity.setGender(gender);
             entity.setBorder(border);
             entity.setRole(role);
+            entity.setIdentityCode(identityCode);
             return entity;
         }
 }
