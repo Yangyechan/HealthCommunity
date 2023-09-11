@@ -142,15 +142,6 @@ public class MainController {
                 return ResponseEntity.ok(newToken);
             }
         }
-
         return ResponseEntity.badRequest().body("토큰 재발급 필요x");
     }
-
-
 }
-
-// 0. 현재까지 진행상황 확인
-// 1. GYM 정보 Identity code 는 관리자가 직접 넣어준다.
-// 2. 등급제를
-// 3. db 관련 얘기
-// 4. 각자 맡은 카테고리 진행

@@ -111,14 +111,4 @@ public class MainService {
         return ResponseEntity.ok("헬스트레이너 registration successful");
     }
 
-    // 로그인
-    public String login(LoginDto dto){
-        UserDetails userDetails = manager.loadUserByUsername(dto.getUsername());
-
-        if (!passwordEncoder.matches(dto.getPassword(), userDetails.getPassword()))
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-
-        return jwtTokenUtils.generateToken(userDetails);
-    }
-
 }
