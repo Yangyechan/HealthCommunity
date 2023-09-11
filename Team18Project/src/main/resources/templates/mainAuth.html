@@ -9,10 +9,15 @@
 <p>이 페이지는 인증된 사용자만 접근할 수 있습니다.</p> <button onclick="logout()">로그아웃</button><br><br>
 
 <button onclick="goToHealthMain()">헬스정보게시판</button>
+<button onclick="goToRental()">헬스 용품대여</button>
 <button onclick="goToCommunity()">커뮤니티</button>
 <button onclick="goToGym()">헬스장 정보</button>
 
 <script>
+    function goToRental(){
+        window.location.href = "/rental";
+    }
+
     function logout() {
         // 쿠키에서 토큰 삭제
         document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

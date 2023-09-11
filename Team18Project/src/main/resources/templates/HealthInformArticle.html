@@ -11,12 +11,9 @@
 <p>내용: <span th:text="${article.content}"></span></p>
 
 <p>좋아요 수: <span th:text="${like}"></span></p>
-<input type='hidden' th:value="${#authentication.principal.username}" id='currentUsername'>
-<input type="hidden" th:value="${article.getChatRoom().getId()}" id="roomId">
 
 <!-- 게시물에 연결된 이미지들 표시 -->
 <div th:each="img : ${articleImgs}">
-  <p>Image URL: <span th:text="${img.img_url}"></span></p>
   <img th:src="@{${img.img_url}}" alt="Image">
 </div>
 
@@ -36,7 +33,7 @@
         <p th:text="${comment.id}" style="display: none;"></p> <!-- 숨겨진 p 태그 -->
         <p th:text="${comment.content}"></p>
         <p>작성자: <span th:text="${comment.user.username}"></span></p>
-        <p>작성일: <span th:text="${comment.createdAt}"></span></p>
+        <p>작성일: <span th:text="${comment.created_at}"></span></p>
         <!-- 댓글 작성자인 경우에만 삭제 버튼 표시 -->
         <button th:if="${#authentication.principal.username == comment.user.username or #authentication.principal.username == 'admin'}"
                 th:data-commentId="${comment.id}"
@@ -54,8 +51,6 @@
   좋아요
 </button>
 
-<button onclick="enterChatRoom()">채팅방 입장</button>
-
 
 <!-- 게시글 수정 버튼 -->
 <button th:if="${#authentication.principal.username == article.user.username or #authentication.principal.username == 'admin'}"
@@ -65,35 +60,20 @@
         onclick="deleteArticle()">게시글 삭제</button>
 <!-- 뒤로 가기 버튼 -->
 <button onclick="back()">돌아가기</button>
-
+<button onclick="logout()">로그아웃</button>
 
 <script>
-  function enterChatRoom() {
-    const currentUsername = document.getElementById("currentUsername").value;
-    const chatId = document.getElementById("roomId").value;
-
-    fetch(`/chat/${chatId}/${currentUsername}`)
-            .then(response => {
-              if (response.ok) {
-                // 채팅방으로 이동
-                window.location.href = `/chat/${chatId}/${currentUsername}`;
-              } else {
-                // Handle error
-                console.error("Failed to enter chat room.");
-                alert("채팅방 입장에 실패하였습니다.");
-              }
-            })
-            .catch(error => {
-              console.error('Error:', error);
-              alert("오류가 발생하였습니다. 다시 시도해주세요.");
-            });
+  function logout() {
+    document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    // 로그아웃 후 메인 페이지로 리다이렉트합니다.
+    window.location.href = "/main";
   }
 
   function toggleLike() {
     const articleId = [[${article.id}]];
     const likeButton = document.getElementById('likeButton-' + articleId);
 
-    fetch(`/healthInform/diet/like/${articleId}`, {
+    fetch(`/healthInform/like/${articleId}`, {
       method: 'POST'
     })
             .then(response => {
@@ -118,7 +98,7 @@
   }
   function deleteComment(commentId) {
     if (confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
-      fetch(`/healthInform/diet/comment/delete/${commentId}`, {
+      fetch(`/healthInform/comment/delete/${commentId}`, {
         method: 'DELETE'
       })
               .then(response => {
@@ -141,7 +121,7 @@
   function submitComment() {
     const commentText = document.getElementById("comment").value;
 
-    fetch(`/healthInform/diet/comment/` + [[${article.id}]], {
+    fetch(`/healthInform/comment/` + [[${article.id}]], {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -155,7 +135,7 @@
                 // 댓글 작성 성공 시 처리
                 alert("댓글이 작성되었습니다.");
                 // 새로고침
-                window.location.href = "/healthInform/diet/" + [[${article.id}]]
+                window.location.href = "/healthInform/" + [[${article.id}]]
               } else {
                 // 댓글 작성 실패 시 처리
                 alert("댓글 작성에 실패하였습니다.");
@@ -167,18 +147,18 @@
             });
   }
   function editArticle() {
-    window.location.href = "/healthInform/diet/modify/" + [[${article.id}]]
+    window.location.href = "/healthInform/modify/" + [[${article.id}]]
   }
   function deleteArticle() {
     if (confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
-      fetch(`/healthInform/diet/delete/` +[[${article.id}]], {
+      fetch(`/healthInform/delete/` +[[${article.id}]], {
         method: 'DELETE'
       })
               .then(response => {
                 if (response.ok) {
                   // 게시물 삭제 성공 시 처리
                   alert("게시물이 삭제되었습니다.");
-                  window.location.href = "/healthInform/diet"
+                  window.location.href = "/healthInform"
                 } else {
                   // 게시물 삭제 실패 시 처리
                   alert("게시물 삭제에 실패하였습니다.");
@@ -190,6 +170,40 @@
               });
     }
   }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    fetch("/main/refresh-token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      credentials: "same-origin", // 쿠키를 보내도록 설정
+    })
+            .then(function (response) {
+              if (response.status === 200) {
+                return response.text();
+              } else {
+                throw new Error("토큰 갱신에 실패했습니다.");
+              }
+            })
+            .then(function (newToken) {
+              var shouldExtend = confirm("로그인을 연장하시겠습니까?");
+              if (shouldExtend) {
+                var expires = new Date();
+                expires.setDate(expires.getDate() + 7);
+                document.cookie = "jwtToken=" + newToken + "; expires=" + expires.toUTCString() + "; path=/";
+                alert("로그인 연장 완료");
+              } else {
+                logout();
+              }
+            })
+            .catch(function (error) {
+              console.error("오류 발생: " + error.message);
+            });
+  });
+
+
+
 </script>
 </body>
 </html>
