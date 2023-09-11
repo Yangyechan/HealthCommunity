@@ -20,11 +20,15 @@ public class Challenge_ArticleEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    private String tag; // 태그
+
     private String title;
 
     private String content;
 
     private LocalDateTime created_at;
+
+    private Integer views;
 
     @OneToMany(mappedBy = "challengeArticle")
     private List<Challenge_Article_imgEntity> challengeArticleImgs = new ArrayList<>();
