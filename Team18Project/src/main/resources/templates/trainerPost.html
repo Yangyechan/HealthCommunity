@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>트레이너 정보 작성</title>
+</head>
+<body>
+<h1>트레이너 정보 작성</h1>
+
+<form id="PostForm">
+
+    <label for="title">트레이너 이름:</label>
+    <input type="text" id="title" name="title" required><br>
+
+    <label for="content">트레이너 정보:</label><br>
+    <textarea id="content" name="content" rows="4" cols="50" required></textarea><br>
+
+    <p>사진을 여러 개 올리고 싶으시면 한 번에 다 선택해 주세요!</p>
+    <label for="images">사진 첨부:</label>
+    <input type="file" id="images" name="images" accept="image/*" multiple><br>
+
+    <button type="submit">글 작성</button>
+</form>
+
+<!-- 뒤로 가기 버튼 -->
+<button onclick="back()">돌아가기</button>
+
+<script>
+    function back() {
+        // 이전 페이지로 이동
+        window.history.back();
+    }
+
+    const articleForm = document.getElementById("PostForm");
+    articleForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const title = document.getElementById("title").value;
+        const content = document.getElementById("content").value;
+
+        const articleData = {
+            title: title,
+            content: content
+        };
+
+        const response = await fetch("/gym/trainer/post", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(articleData),
+        });
+
+        const id = await response.text();
+
+        if (response.ok) {
+
+            // 파일 업로드를 위한 FormData 객체 생성
+            const formData = new FormData();
+            const imageInput = document.getElementById("images");
+            const selectedImages = imageInput.files;
+            for (const image of selectedImages) {
+                formData.append("images", image);
+            }
+
+            try {
+                const responseImage = await fetch("/gym/trainer/post/Images/" + id, {
+                    method: "POST",
+                    body: formData,
+                });
+
+                const imageUploadResult = await responseImage.text(); // 이미지 업로드 응답 텍스트 가져오기
+
+                if (responseImage.ok) {
+                    console.log(imageUploadResult);
+                } else {
+                    console.error("이미지 업로드 실패");
+                }
+            } catch (error) {
+                console.error("이미지 업로드 중 오류 발생", error);
+            }
+
+            console.log("글 작성 성공");
+            alert("글 작성이 성공하였습니다.");
+            window.location.href = "/gym/trainer/" + id;
+
+        } else {
+            console.error("글 작성 실패");
+            alert("글 작성에 실패하였습니다.");
+        }
+    });
+
+</script>
+</body>
+</html>
