@@ -16,7 +16,6 @@
     <div th:each="img : ${articleImgs}">
         <button th:data-imgId="${img.id}"
                 onclick="confirmDelete(this.getAttribute('data-imgId'))">이미지 삭제</button>
-        <p>Image URL: <span th:text="${img.img_url}"></span></p>
         <img th:src="@{${img.img_url}}" alt="Image">
     </div>
 
@@ -25,7 +24,12 @@
         <label for="title">제목</label>
         <input type="text" id="title" name="title" th:value="${article.title}"><br>
         <label for="tag">태그</label>
-        <input type="text" id="tag" name="tag" th:value="${article.tag}"><br>
+        <select id="tag" name="tag" required>
+            <option value="기타">기타</option>
+            <option value="벌크업">벌크업</option>
+            <option value="다이어트">다이어트</option>
+            <option value="공지사항" th:if="${#authentication.principal.username == 'admin'}">공지사항</option>
+        </select><br>
         <label for="content">내용</label>
         <textarea id="content" name="content" rows="4" cols="50" th:text="${article.content}"></textarea><br>
 

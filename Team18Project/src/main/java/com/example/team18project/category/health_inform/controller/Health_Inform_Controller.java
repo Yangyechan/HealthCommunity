@@ -356,7 +356,7 @@ public class Health_Inform_Controller {
         for (int i = 0; i < articleImg.size() ; i++) {
             String[] split = articleImg.get(i).getImg_url().split("/");
             String name = split[split.length-1];
-            String imagePath = "media/diet/" + articleId + "/" + name;
+            String imagePath = "media/inform/" + articleId + "/" + name;
 
             // 실제 서버에서 이미지 삭제
             try {
@@ -464,7 +464,7 @@ public class Health_Inform_Controller {
         Long articleId = InformArticleImg.getHealthInformArticle().getId();
         String[] split = InformArticleImg.getImg_url().split("/");
         String name = split[split.length-1];
-        String imagePath = "media/diet/" + articleId + "/" + name;
+        String imagePath = "media/inform/" + articleId + "/" + name;
 
         // 실제 서버에서 이미지 삭제
         try {
@@ -552,7 +552,7 @@ public class Health_Inform_Controller {
                 try
                 {
                     // 1. 이미지 저장 경로 설정 및 폴더 생성
-                    String profileDir = String.format("media/diet/%d/", id);
+                    String profileDir = String.format("media/inform/%d/", id);
                     Files.createDirectories(Path.of(profileDir));
                     // 2. 이미지 파일 이름 만들기 (원래 파일 이름 그대로 사용)
                     String originalFilename = image.getOriginalFilename();
@@ -564,7 +564,7 @@ public class Health_Inform_Controller {
                     // 5. 데이터베이스 업데이트
                     Health_Inform_Article_imgEntity ImagesEntity = new   Health_Inform_Article_imgEntity();
                     ImagesEntity.setHealthInformArticle(InformArticle);
-                    ImagesEntity.setImg_url(String.format("/static/diet/%d/%s", id, originalFilename));
+                    ImagesEntity.setImg_url(String.format("/static/inform/%d/%s", id, originalFilename));
                     healthInformArticleImgRepository.save(ImagesEntity);
 
                 }
