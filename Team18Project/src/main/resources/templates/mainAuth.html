@@ -6,12 +6,10 @@
 </head>
 <body>
 <h1>인증된 페이지</h1>
-<p>이 페이지는 인증된 사용자만 접근할 수 있습니다.</p>
+<p>이 페이지는 인증된 사용자만 접근할 수 있습니다.</p> <button onclick="logout()">로그아웃</button><br><br>
 
-<button onclick="logout()">로그아웃</button>
 <button onclick="goToHealthMain()">헬스정보게시판</button>
-<button onclick="goToFreeBoard()">자유 게시판</button>
-<button onclick="goToChatRoom()">채팅방 관리</button>
+<button onclick="goToCommunity()">커뮤니티</button>
 <button onclick="goToGym()">헬스장 정보</button>
 
 <script>
@@ -27,15 +25,10 @@
     }
 
     function goToHealthMain() {
-        window.location.href = "/healthInform/main";
+        window.location.href = "/healthInform";
     }
-
-    function goToFreeBoard() {
-        window.location.href = "/main/freeBoard";
-    }
-
-    function goToChatRoom() {
-        window.location.href = "/chat";
+    function goToCommunity() {
+        window.location.href = "/community";
     }
 
     document.addEventListener("DOMContentLoaded", function () {

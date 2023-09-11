@@ -12,7 +12,7 @@
 <button onclick="logout()">로그아웃</button>
 <button onclick="main()">메인페이지</button>
 <button onclick="FreeBoard()">자유 게시판</button>
-
+<button onclick="Challenge()">오운완 챌린지</button>
 <script>
   function logout() {
     document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -23,6 +23,10 @@
   function main() {
     // 메인 페이지로 이동
     window.location.href = "/main/auth";
+  }
+
+  function Challenge(){
+    window.location.href = "/challenge/pages";
   }
 
   function FreeBoard () {

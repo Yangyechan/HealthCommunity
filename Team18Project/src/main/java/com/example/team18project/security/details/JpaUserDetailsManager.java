@@ -24,9 +24,9 @@ public class JpaUserDetailsManager implements UserDetailsManager {
         createUser(CustomUserDetails.builder()
                 .username("admin")
                 .password(passwordEncoder.encode("asdf"))
-                .nickname("관리자지렁")
+                .nickname("관리자님")
                 .border("green")
-                .role("관리자")
+                .role("admin")
                 .build());
     }
 
