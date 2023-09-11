@@ -24,5 +24,7 @@ public class Free_Article_CommentEntity {
 
     private String content;
 
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
+
+
 }

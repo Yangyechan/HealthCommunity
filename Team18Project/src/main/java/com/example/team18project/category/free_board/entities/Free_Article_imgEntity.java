@@ -15,5 +15,5 @@ public class Free_Article_imgEntity {
     @JoinColumn(name = "free_article_id")
     private Free_ArticleEntity freeArticle;
 
-    private String img_url;
+    private String imgUrl;
 }
