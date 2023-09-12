@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,7 +28,7 @@
     window.location.href = "/gym/post";
   }
 
-  var map; // 전역 변수로 지도 객체 선언
+  var map;
   var markers = []; // 전역 변수로 마커들을 저장할 배열
   // 페이지 로드 시 초기화 함수
 
@@ -35,7 +36,7 @@
     StartMap();
   });
 
-  //검색한 주소의 정보를 insertAddress 함수로 넘겨준다.
+
   function searchAddressToCoordinate(address) {
     naver.maps.Service.geocode({
       query: address
@@ -97,7 +98,7 @@
     console.log(title);
     var marker = new naver.maps.Marker({
       position: new naver.maps.LatLng(x, y),
-      map: map, // 전역 변수로 선언한 map 객체 사용
+      map: map,
       title: title, // 마커에 이름 설정
       visible: true // 마커 항상 보이게 설정
     });
@@ -160,7 +161,6 @@
       fetch("/gym/markers")
               .then(response => response.json())
               .then(data => {
-                // 헬스장 정보를 반복하여 마커를 생성하고 지도에 표시합니다.
                 data.forEach(gym => {
                   drawMarkers(gym.title, gym.x, gym.y, gym.id);
                 });
