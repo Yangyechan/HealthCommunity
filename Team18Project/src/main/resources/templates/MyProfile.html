@@ -19,6 +19,8 @@
 <p><strong>Email:</strong> <span th:text="${user.email}">Email</span></p>
 <p><strong>Phone:</strong> <span th:text="${user.phone}">Phone</span></p>
 <p><strong>Address:</strong> <span th:text="${user.address}">Address</span></p>
+
+<button onclick="nicknameUpdate()">닉네임 변경</button>
 <button onclick="goToProfile()">프로필 정보 수정</button>
 <button onclick="passwordUpdate()">비밀번호 변경</button>
 
@@ -32,6 +34,10 @@
 <p id="upload-result" style="display: none;"></p>
 
 <script>
+    function nicknameUpdate() {
+        window.location.href = "/main/profile/nickname/change";
+    }
+
     function goToProfile() {
         window.location.href = "/main/profile/update";
     }
