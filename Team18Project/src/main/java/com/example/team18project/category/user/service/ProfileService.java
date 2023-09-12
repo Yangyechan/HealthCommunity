@@ -289,10 +289,10 @@ public class ProfileService {
                 userRepository.save(user);
                 return ResponseEntity.ok("비밀번호 변경 완료");
             } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+                return ResponseEntity.badRequest().body("새 비밀번호를 확인하세요.");
             }
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("기존 비밀번호가 일치하지 않습니다.");
+            return ResponseEntity.badRequest().body("기존 비밀번호가 일치하지 않습니다.");
         }
     }
 }
