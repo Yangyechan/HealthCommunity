@@ -55,6 +55,10 @@ public class JpaUserDetailsManager implements UserDetailsManager {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    public boolean nickNameExists(String nickname){
+        log.info("check if nickname: {} exists", nickname);
+        return this.userRepository.existsByNickname(nickname);
+    }
 
     @Override
     public boolean userExists(String username) {

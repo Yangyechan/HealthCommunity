@@ -1,7 +1,9 @@
 package com.example.team18project.category.user.service;
 
 import com.example.team18project.category.gym.entities.GymEntity;
+import com.example.team18project.category.gym.entities.Trainer_boardEntity;
 import com.example.team18project.category.gym.repos.GymRepository;
+import com.example.team18project.category.gym.repos.TrainerRepository;
 import com.example.team18project.category.user.entities.UserEntity;
 import com.example.team18project.category.user.repos.UserRepository;
 import com.example.team18project.security.details.CustomUserDetails;
@@ -30,19 +32,21 @@ public class MainService {
             UserDetailsManager manager,
             JpaUserDetailsManager userDetailsManager,
             PasswordEncoder passwordEncoder,
-            JwtTokenUtils jwtTokenUtils) {
+            TrainerRepository trainerRepository
+            ) {
 
         this.gymRepository = gymRepository;
         this.userRepository = userRepository;
         this.manager = manager;
         this.userDetailsManager = userDetailsManager;
         this.passwordEncoder = passwordEncoder;
-        this.jwtTokenUtils = jwtTokenUtils;
-    }
+        this.trainerRepository = trainerRepository;
+
+}
 
     private final UserRepository userRepository;
     private final UserDetailsManager manager;
-    private final JwtTokenUtils jwtTokenUtils;
+    private final TrainerRepository trainerRepository;
     private final GymRepository gymRepository;
     private final PasswordEncoder passwordEncoder;
     private final JpaUserDetailsManager userDetailsManager;
@@ -51,8 +55,11 @@ public class MainService {
     public ResponseEntity<String> userRegister(RegisterDto dto){
 
         if(userDetailsManager.userExists(dto.getUsername())){
-            log.info("User already exists");
-            return ResponseEntity.badRequest().body("User already exists");
+            return ResponseEntity.badRequest().body("아이디가 이미 존재합니다");
+        }
+
+        if(userDetailsManager.nickNameExists(dto.getNickname())){
+            return ResponseEntity.badRequest().body("별명이 이미 존재합니다");
         }
 
         manager.createUser(CustomUserDetails.builder()
@@ -82,12 +89,18 @@ public class MainService {
         Optional<GymEntity> gymEntity = gymRepository.findByIdentityCode(identity_code);
 
         if(gymEntity.isEmpty()){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("고유번호에 맞는 헬스장이 없습니다.");
         }
 
         if(userDetailsManager.userExists(dto.getUsername())){
-            return ResponseEntity.badRequest().body("User already exists");
+            return ResponseEntity.badRequest().body("아이디가 이미 존재합니다");
         }
+
+        if(userDetailsManager.nickNameExists(dto.getNickname())){
+            return ResponseEntity.badRequest().body("별명이 이미 존재합니다");
+        }
+
         manager.createUser(CustomUserDetails.builder()
                 .username(dto.getUsername())
                 .password(passwordEncoder.encode(dto.getPassword()))
@@ -106,10 +119,11 @@ public class MainService {
         Optional<UserEntity> userEntity = userRepository.findByUsername(dto.getUsername());
 
         UserEntity user = userEntity.get();
-
         user.setGym(gymEntity.get());
-
+        user.setIdentityCode(dto.getIdentityCode());
         userRepository.save(user);
+
+
         return ResponseEntity.ok("헬스트레이너 registration successful");
     }
 

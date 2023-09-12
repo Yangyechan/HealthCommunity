@@ -14,22 +14,22 @@
         <h2>회원가입</h2>
         <div class="flex">
           <input class="id" id="username" type="text" placeholder="아이디" required />
-          <input class="email" id="email" type="email" placeholder="이메일" required />
+          <input class="email" id="email" type="email" placeholder="이메일"/>
         </div>
         <input type="password" id="password" placeholder="비밀번호" required />
         <input type="password" id="passwordCheck" placeholder="비밀번호 재입력" required />
         <input type="text" id="nickname" placeholder="닉네임" required />
-        <input type="text" id="address" placeholder="주소" required />
-        <input type="text" id="profile_img" placeholder="프로필 이미지" required />
-        <input type="text" id="phone" placeholder="전화번호" required />
-        <input type="text" id="birth" placeholder="생년원일" required />
-        <input type="text" id="gender" placeholder="성별" required />
-        <input type="text" id="identityCode" placeholder="헬스장 고유번호" required />
+        <input type="text" id="address" placeholder="주소" />
+        <input type="text" id="phone" placeholder="전화번호" />
+        <input type="text" id="birth" placeholder="생년원일" />
+        <input type="text" id="gender" placeholder="성별" />
+        <input type="text" id="identityCode" placeholder="헬스장 고유번호"/>
 
         <button style="margin-top: 20px;">회원가입</button>
       </form>
     </div>
   </div>
+</div>
   <div class="intros-container">
     <div class="intro-control signin-intro">
       <div class="intro-control__inner">
@@ -37,6 +37,7 @@
       </div>
     </div>
   </div>
+
 </body>
 <script>
   function goToMainPage() {
@@ -57,7 +58,6 @@
       email: document.getElementById('email').value,
       nickname: document.getElementById('nickname').value,
       address: document.getElementById('address').value,
-      profile_img: document.getElementById('profile_img').value,
       phone: document.getElementById('phone').value,
       birth: document.getElementById('birth').value,
       gender: document.getElementById('gender').value,
@@ -75,7 +75,8 @@
           goToLoginPage();
         } else {
           // 회원 가입 실패
-          alert("회원 가입에 실패했습니다. 다시 시도해주세요.");
+          var errorMessage = xhr.responseText; // 서버 응답 본문 가져오기
+          alert("회원 가입에 실패했습니다. " + errorMessage);
         }
       }
     };

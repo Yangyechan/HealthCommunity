@@ -79,7 +79,7 @@ public class MainController {
                 return mainService.gymRegister(dto);
             }
         }
-        else  return ResponseEntity.badRequest().body("Password and passwordCheck do not match");
+        else  return ResponseEntity.badRequest().body("비밀번호 확인이랑 비밀번호가 다릅니다!");
 
         return ResponseEntity.badRequest().body("Bad Request");
     }

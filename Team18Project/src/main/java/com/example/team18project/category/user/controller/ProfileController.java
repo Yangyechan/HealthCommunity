@@ -23,7 +23,6 @@ public class ProfileController {
     2. 로그인 후 본인 프로필도 볼 수 있지만 이땐 @RequestParam 필요없고 유저 정보 업데이트 가능
      */
 
-
     // GET "/main/profile"
     // 현재 유저 정보 view
     @GetMapping
