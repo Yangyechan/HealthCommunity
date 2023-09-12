@@ -1,23 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
     <meta charset="UTF-8">
-    <title>로그인</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>운동 정보 사이트</title>
+    <link rel="stylesheet" href="/static/login.css">
 </head>
 <body>
-<h1>로그인 페이지</h1>
-<form id="login-form" method="post">
-    <label for="username">사용자명:</label>
-    <input type="text" id="username" name="username"><br><br>
-
-    <label for="password">비밀번호:</label>
-    <input type="password" id="password" name="password"><br><br>
-    <input type="submit" value="로그인">
-</form>
-<br>
-<button onclick="goToMainPage()">메인 페이지</button>
-<button onclick="goToSignUpPage()">회원가입 페이지</button>
-
+<div class="container">
+    <div class="forms-container">
+        <div class="form-control signin-form">
+            <form action="#" id="login-form">
+                <h2>로그인</h2>
+                <input type="text" id="username" placeholder="아이디" required />
+                <input type="password" id="password" placeholder="비밀번호" required />
+                <button>로그인</button>
+            </form>
+        </div>
+    </div>
+    <div class="intros-container">
+        <div class="intro-control signin-intro">
+            <div class="intro-control__inner">
+                <img class="login_img" src="/static/4.jpg" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 <script>
     function goToMainPage() {
         window.location.href = "/main";
@@ -61,5 +70,5 @@
     });
 
 </script>
-</body>
 </html>
+
