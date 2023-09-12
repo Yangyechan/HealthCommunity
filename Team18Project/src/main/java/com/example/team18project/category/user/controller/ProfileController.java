@@ -1,5 +1,6 @@
 package com.example.team18project.category.user.controller;
 
+import com.example.team18project.category.user.dto.NicknameChange;
 import com.example.team18project.category.user.dto.PasswordChange;
 import com.example.team18project.category.user.dto.UserProfileUpdate;
 import com.example.team18project.category.user.service.ProfileService;
@@ -96,5 +97,24 @@ public class ProfileController {
             @RequestBody PasswordChange passwordChange
     ) {
         return ProfileService.passwordChangeService(passwordChange);
+    }
+
+
+    // GET "/main/profile/nickname/change"
+    // 닉네임 변경 view
+    @GetMapping("/nickname/change")
+    public String nicknameUpdateView(Model model)
+    {
+        return ProfileService.nicknameUpdateViewService(model);
+    }
+
+
+    // POST "/main/profile/nickname/change"
+    // 닉네임 변경
+    @PostMapping("/nickname/change")
+    public ResponseEntity<String> nicknameUpdate(
+            @RequestBody NicknameChange nicknameChange
+    ) {
+        return ProfileService.nicknameChangeService(nicknameChange);
     }
 }
