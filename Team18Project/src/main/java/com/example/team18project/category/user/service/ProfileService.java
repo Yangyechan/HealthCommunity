@@ -2,6 +2,7 @@ package com.example.team18project.category.user.service;
 
 import com.example.team18project.category.challenge.entities.Challenge_ArticleEntity;
 import com.example.team18project.category.challenge.repos.Challenge_ArticleRepository;
+import com.example.team18project.category.user.dto.NicknameChange;
 import com.example.team18project.category.user.dto.PasswordChange;
 import com.example.team18project.category.user.dto.UserProfileUpdate;
 import com.example.team18project.category.user.entities.UserEntity;
@@ -294,5 +295,53 @@ public class ProfileService {
         } else {
             return ResponseEntity.badRequest().body("기존 비밀번호가 일치하지 않습니다.");
         }
+    }
+
+
+    // 닉네임 변경 view
+    public String nicknameUpdateViewService(Model model) {
+        // 사용자 정보 회수
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+
+        if (optionalUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
+        model.addAttribute("user", optionalUser.get()); // 사용자 정보를 모델에 추가
+        return "NicknameChange";
+    }
+
+
+    // 닉네임 변경 로직
+    public ResponseEntity<String> nicknameChangeService(NicknameChange dto) {
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+
+        if (optionalUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        UserEntity user = optionalUser.get();
+
+        Optional<UserEntity> userWithNewNickname = userRepository.findByNickname(dto.getNickname());
+
+        if (userWithNewNickname.isPresent()) {
+            return ResponseEntity.badRequest().body("이미 있는 닉네임 입니다.");
+        }
+
+
+        user.setNickname(dto.getNickname());
+        userRepository.save(user);
+
+        return ResponseEntity.ok("닉네임 변경 완료");
     }
 }

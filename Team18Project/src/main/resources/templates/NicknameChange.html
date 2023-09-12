@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>닉네임 변경</title>
+</head>
+<body>
+<h1>닉네임 변경</h1>
+<form id="nicknameChangeForm">
+  <label for="nickname">새 닉네임:</label>
+  <input type="text" id="nickname" name="nickname" required><br>
+
+  <button type="button" onclick="changeNickname()">변경</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+  async function changeNickname() {
+    const nickname = document.getElementById("nickname").value;
+    const resultDiv = document.getElementById("result");
+
+    const data = {
+      nickname: nickname
+    };
+
+    try {
+      const response = await fetch("/main/profile/nickname/change", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        const message = await response.text();
+        resultDiv.innerHTML = `<p>${message}</p>`;
+        // 닉네임 변경 성공 시 원하는 경로로 리디렉션
+        window.location.href = "/main/profile"; // 예시 경로, 필요에 따라 변경
+      } else {
+        const errorMessage = await response.text();
+        resultDiv.innerHTML = `<p>${errorMessage}</p>`;
+      }
+    } catch (error) {
+      console.error(error);
+      resultDiv.innerHTML = "<p>오류가 발생했습니다.</p>";
+    }
+  }
+</script>
+</body>
+</html>
