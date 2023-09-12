@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-  <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=cgr7cju8pz&submodules=geocoder"></script>
   <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
   <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
   <title>헬스장 정보</title>
@@ -24,6 +23,20 @@
 
 <script>
 
+  function loadNaverMapScript() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=cgr7cju8pz&submodules=geocoder';
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+
+    script.onload = function() {
+      // 네이버 지도 API가 로드된 후에 실행할 코드를 여기에 추가합니다.
+      // 예: initMap(); // 이 함수는 네이버 지도를 초기화하는 함수일 수 있습니다.
+    };
+  }
+
   function post(){
     window.location.href = "/gym/post";
   }
@@ -33,9 +46,9 @@
   // 페이지 로드 시 초기화 함수
 
   document.addEventListener("DOMContentLoaded", function() {
+    loadNaverMapScript();
     StartMap();
   });
-
 
   function searchAddressToCoordinate(address) {
     naver.maps.Service.geocode({
