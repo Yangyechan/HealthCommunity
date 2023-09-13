@@ -132,6 +132,22 @@ body {
   color: rgb(62, 62, 62);
 }
 
+.profile_button {
+  display: block;
+  margin-left: 10px;
+
+  width: 100px;
+  height: 40px;
+
+  font-weight: 700;
+  border-radius: 8px;
+
+  border: none;
+  background-color: #222;
+  color:white;
+
+}
+
 .auth_button {
   cursor: pointer;
 }
