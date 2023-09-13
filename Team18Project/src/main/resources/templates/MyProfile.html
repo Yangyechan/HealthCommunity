@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile</title>
+    <title>My Profile</title> <button onclick="main()">메인페이지</button>
 </head>
 <body>
 <h1>My Profile</h1>
@@ -34,6 +34,11 @@
 <p id="upload-result" style="display: none;"></p>
 
 <script>
+    function main() {
+        // 메인 페이지로 이동
+        window.location.href = "/main/auth";
+    }
+    
     function nicknameUpdate() {
         window.location.href = "/main/profile/nickname/change";
     }
