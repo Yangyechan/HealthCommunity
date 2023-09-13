@@ -2,12 +2,12 @@
 <html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-  <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-  <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
-  <title>헬스장 정보</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <title>헬스장 정보</title>
 </head>
 
 <body>
@@ -15,174 +15,152 @@
 <button th:if="${#authentication.principal.username == 'admin'}" onclick="post()">헬스장 추가</button>
 
 <div class="search">
-  <input id="address" type="text" placeholder="검색할 주소">
-  <input id="submit" type="button" value="주소검색">
+    <input id="address" type="text" placeholder="검색할 주소">
+    <input id="submit" type="button" value="주소검색">
 </div>
 <div id="map" style="width:1000px;height:500px;"></div>
 </body>
 
 <script>
 
-  function loadNaverMapScript() {
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=cgr7cju8pz&submodules=geocoder';
-    script.async = true;
-    script.defer = true;
-    document.head.appendChild(script);
+    function loadNaverMapScript() {
+        console.log("loadNaverMapScriptStart");
 
-    script.onload = function() {
-      // 네이버 지도 API가 로드된 후에 실행할 코드를 여기에 추가합니다.
-      // 예: initMap(); // 이 함수는 네이버 지도를 초기화하는 함수일 수 있습니다.
-    };
-  }
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=cgr7cju8pz&submodules=geocoder';
+        script.async = true;
+        script.defer = true;
 
-  function post(){
-    window.location.href = "/gym/post";
-  }
+        // 스크립트가 로드된 후에 실행될 코드를 정의
+        script.onload = function() {
+            // 네이버 지도 API가 로드된 후에 실행할 코드를 여기에 추가합니다.
+            StartMap(); // 네이버 지도 초기화 함수 호출
+        };
 
-  var map;
-  var markers = []; // 전역 변수로 마커들을 저장할 배열
-  // 페이지 로드 시 초기화 함수
-
-  document.addEventListener("DOMContentLoaded", function() {
-    loadNaverMapScript();
-    StartMap();
-  });
-
-  function searchAddressToCoordinate(address) {
-    naver.maps.Service.geocode({
-      query: address
-    }, function(status, response) {
-      if (status === naver.maps.Service.Status.ERROR) {
-        return alert('Something Wrong!');
-      }
-      if (response.v2.meta.totalCount === 0) {
-        return alert('올바른 주소를 입력해주세요.');
-      }
-      var htmlAddresses = [],
-              item = response.v2.addresses[0],
-              point = new naver.maps.Point(item.x, item.y);
-      if (item.roadAddress) {
-        htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
-      }
-      if (item.jibunAddress) {
-        htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
-      }
-      if (item.englishAddress) {
-        htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
-      }
-
-      insertAddress(item.roadAddress, item.x, item.y);
-
-    });
-  }
-  // 주소 검색의 이벤트
-  $('#address').on('keydown', function(e) {
-    var keyCode = e.which;
-    if (keyCode === 13) { // Enter Key
-      searchAddressToCoordinate($('#address').val());
+        document.head.appendChild(script);
     }
-  });
-  $('#submit').on('click', function(e) {
-    e.preventDefault();
-    searchAddressToCoordinate($('#address').val());
-  });
-  naver.maps.Event.once(map, 'init_stylemap', initGeocoder);
 
-  //검색정보를 테이블로 작성해주고, 지도에 마커를 찍어준다.
-  function insertAddress(address, latitude, longitude) {
-    var mapList = "";
-    mapList += "<tr>"
-    mapList += "	<td>" + address + "</td>"
-    mapList += "	<td>" + latitude + "</td>"
-    mapList += "	<td>" + longitude + "</td>"
-    mapList += "</tr>"
+    function post(){
+        window.location.href = "/gym/post";
+    }
 
-    $('#mapList').append(mapList);
+    var map;
+    var markers = []; // 전역 변수로 마커들을 저장할 배열
+    // 페이지 로드 시 초기화 함수
 
-    // 새롭게 map 이동하고 map 그리기 latitude: 위도 == x longtitude: 경도 == y
-    map.setCenter(new naver.maps.LatLng(longitude, latitude));
-
-  }
-
-  // 마커용 함수
-  function drawMarkers(title, x, y, id){
-    console.log(title);
-    var marker = new naver.maps.Marker({
-      position: new naver.maps.LatLng(x, y),
-      map: map,
-      title: title, // 마커에 이름 설정
-      visible: true // 마커 항상 보이게 설정
+    document.addEventListener("DOMContentLoaded", function() {
+        loadNaverMapScript();
     });
 
-    var infowindow = new naver.maps.InfoWindow({
-      content: '<div style="padding:10px;">' + title + '</div>',
-      disableAutoPan: true // 자동으로 맵의 중앙으로 이동하지 않도록 설정
+    function searchAddressToCoordinate(address) {
+        naver.maps.Service.geocode({
+            query: address
+        }, function(status, response) {
+            if (status === naver.maps.Service.Status.ERROR) {
+                return alert('Something Wrong!');
+            }
+            if (response.v2.meta.totalCount === 0) {
+                return alert('올바른 주소를 입력해주세요.');
+            }
+            var htmlAddresses = [],
+                item = response.v2.addresses[0],
+                point = new naver.maps.Point(item.x, item.y);
+            if (item.roadAddress) {
+                htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
+            }
+            if (item.jibunAddress) {
+                htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
+            }
+            if (item.englishAddress) {
+                htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
+            }
+
+            insertAddress(item.roadAddress, item.x, item.y);
+
+        });
+    }
+    // 주소 검색의 이벤트
+    $('#address').on('keydown', function(e) {
+        var keyCode = e.which;
+        if (keyCode === 13) { // Enter Key
+            searchAddressToCoordinate($('#address').val());
+        }
     });
-
-
-    // 마커를 클릭하면 해당 위치로 이동
-    naver.maps.Event.addListener(marker, 'click', function(e) {
-      if (infowindow.getMap()) {
-        infowindow.close();
-      } else {
-        infowindow.open(map, marker);
-      }
-      window.location.href = "/gym/" + id;
-
+    $('#submit').on('click', function(e) {
+        e.preventDefault();
+        searchAddressToCoordinate($('#address').val());
     });
-    markers.push(marker);
+    // naver.maps.Event.once(map, 'init_stylemap', initGeocoder);
 
-  }
+    //검색정보를 테이블로 작성해주고, 지도에 마커를 찍어준다.
+    function insertAddress(address, latitude, longitude) {
+        var mapList = "";
+        mapList += "<tr>"
+        mapList += "	<td>" + address + "</td>"
+        mapList += "	<td>" + latitude + "</td>"
+        mapList += "	<td>" + longitude + "</td>"
+        mapList += "</tr>"
 
-  //지도를 그려주는 함수
-  function StartMap() {
-    // 브라우저의 Geolocation API를 사용하여 현재 위치를 가져옵니다.
-    if("geolocation" in navigator){
-      navigator.geolocation.getCurrentPosition(function(position){
+        $('#mapList').append(mapList);
 
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
+        // 새롭게 map 이동하고 map 그리기 latitude: 위도 == x longtitude: 경도 == y
+        map.setCenter(new naver.maps.LatLng(longitude, latitude));
 
-        // 지도의 중심을 현재 위치로 설정합니다.
+    }
+
+    // 마커용 함수
+    function drawMarkers(title, x, y, id){
+        console.log(title);
+        var marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(x, y),
+            map: map,
+            title: title, // 마커에 이름 설정
+            visible: true // 마커 항상 보이게 설정
+        });
+
+        var infowindow = new naver.maps.InfoWindow({
+            content: '<div style="padding:10px;">' + title + '</div>',
+            disableAutoPan: true // 자동으로 맵의 중앙으로 이동하지 않도록 설정
+        });
+
+
+        // 마커를 클릭하면 해당 위치로 이동
+        naver.maps.Event.addListener(marker, 'click', function(e) {
+            if (infowindow.getMap()) {
+                infowindow.close();
+            } else {
+                infowindow.open(map, marker);
+            }
+            window.location.href = "/gym/" + id;
+
+        });
+        markers.push(marker);
+
+    }
+
+    //지도를 그려주는 함수
+    function StartMap() {
+        // 브라우저의 Geolocation API를 사용하여 현재 위치를 가져옵니다.
+        console.log("StartMapStart");
+
         map = new naver.maps.Map('map', {
-          center: new naver.maps.LatLng(latitude, longitude),
-          zoom: 15
+            center: new naver.maps.LatLng(37.552758094502493, 126.98732600494576),
+            zoom: 15
         });
 
         fetch("/gym/markers")
-                .then(response => response.json())
-                .then(data => {
-                  // 헬스장 정보를 반복하여 마커를 생성하고 지도에 표시합니다.
-                  data.forEach(gym => {
-                    drawMarkers(gym.title, gym.x, gym.y, gym.id);
-                  });
-                })
-                .catch(error => {
-                  console.error("Error fetching gym data:", error);
-                });
-
-      });
-
-    }else {
-      map = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(37.552758094502493, 126.98732600494576),
-        zoom: 15
-      });
-
-      fetch("/gym/markers")
-              .then(response => response.json())
-              .then(data => {
+            .then(response => response.json())
+            .then(data => {
                 data.forEach(gym => {
-                  drawMarkers(gym.title, gym.x, gym.y, gym.id);
+                    drawMarkers(gym.title, gym.x, gym.y, gym.id);
                 });
-              })
-              .catch(error => {
+            })
+            .catch(error => {
                 console.error("Error fetching gym data:", error);
-              });
+            });
+
     }
-  }
 
 </script>
 </html>
