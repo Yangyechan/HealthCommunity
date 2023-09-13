@@ -22,6 +22,7 @@
 
         <div class="button_wrapper flex">
             <a href="javascript: logout();"><button class="auth_button login_button">LOGOUT</button></a>
+            <a href="javascript: goToProfile();"><button class="auth_button profile_button">PROFILE</button></a>
         </div>
     </header>
 
@@ -81,6 +82,10 @@
         document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         // 로그아웃 후 메인 페이지로 리다이렉트
         window.location.href = "/main";
+    }
+
+    function goToProfile(){
+        window.location.href = "/main/profile";
     }
 
     function goToGym(){
