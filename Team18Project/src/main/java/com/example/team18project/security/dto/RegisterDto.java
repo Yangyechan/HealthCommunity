@@ -13,7 +13,7 @@ public class RegisterDto {
     private String passwordCheck;
     @NotBlank
     private String nickname;
-
+    @NotBlank
     private String address;
 
     private String email;
