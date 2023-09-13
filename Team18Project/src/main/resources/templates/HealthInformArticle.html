@@ -61,12 +61,17 @@
 <!-- 뒤로 가기 버튼 -->
 <button onclick="back()">돌아가기</button>
 <button onclick="logout()">로그아웃</button>
+<button onclick="goToProfile()">프로필</button>
 
 <script>
   function logout() {
     document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     // 로그아웃 후 메인 페이지로 리다이렉트합니다.
     window.location.href = "/main";
+  }
+
+  function goToProfile(){
+    window.location.href = "/main/profile";
   }
 
   function toggleLike() {

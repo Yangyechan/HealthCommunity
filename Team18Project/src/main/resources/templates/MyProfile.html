@@ -8,7 +8,8 @@
 <body>
 <h1>My Profile</h1>
 <!-- 사용자의 프로필 사진 표시 -->
-<img th:src="${user.profileImg}" alt="프로필 사진" style="max-width: 300px;">
+<img th:if="${user.profileImg != null}" th:src="${user.profileImg}" alt="프로필 사진" style="max-width: 300px;">
+
 
 <!-- 프로필 이미지 삭제 버튼 -->
 <button id="delete-button">프로필 이미지 삭제</button>
