@@ -2,6 +2,7 @@ package com.example.team18project.category.gym.controller;
 
 import com.example.team18project.category.gym.dto.Gym_Modify_Dto;
 import com.example.team18project.category.gym.dto.Gym_Post_Dto;
+import com.example.team18project.category.gym.dto.Location;
 import com.example.team18project.category.gym.dto.Response;
 import com.example.team18project.category.gym.entities.*;
 import com.example.team18project.category.gym.repos.*;
@@ -45,6 +46,27 @@ public class GymController {
     //http://localhost:1213/gym/main
 
     // 하..
+    @GetMapping("/location")
+    @ResponseBody
+    public Location getUserLocation(){
+        // 현재 사용자 정보 가져오기
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+        Optional<UserEntity> userEntity = userRepository.findByUsername(username);
+        UserEntity user = userEntity.get();
+        String address = user.getAddress();
+        Location location = new Location();
+        if(address == null){
+            location.setAddress("no");
+        }
+        else{
+            location.setAddress(address);
+        }
+       return location;
+    }
+
     @GetMapping("/markers")
     @ResponseBody
     public List<Response> getGymsSize() {

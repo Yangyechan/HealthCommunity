@@ -144,10 +144,23 @@
         // 브라우저의 Geolocation API를 사용하여 현재 위치를 가져옵니다.
         console.log("StartMapStart");
 
-        map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.552758094502493, 126.98732600494576),
-            zoom: 15
-        });
+        fetch("/gym/location")
+            .then(response => response.json())
+            .then(data => {
+                if (data.address ==="no"){
+                    map = new naver.maps.Map('map', {
+                        center: new naver.maps.LatLng(37.552758094502493, 126.98732600494576),
+                        zoom: 15
+                    });
+                }
+                else{
+                    map = new naver.maps.Map('map');
+                    searchAddressToCoordinate(data.address);
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching address data:", error);
+            });
 
         fetch("/gym/markers")
             .then(response => response.json())
