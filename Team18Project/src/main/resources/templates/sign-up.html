@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>운동 정보 사이트</title>
   <link rel="stylesheet" href="/static/sign-up.css">
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <div class="container">
@@ -19,7 +20,13 @@
         <input type="password" id="password" placeholder="비밀번호" required />
         <input type="password" id="passwordCheck" placeholder="비밀번호 재입력" required />
         <input type="text" id="nickname" placeholder="닉네임" required />
-        <input type="text" id="address" placeholder="주소" required readonly/>
+
+        <!-- 주소 입력란과 주소 찾기 버튼 추가 -->
+        <div class="flex">
+          <input type="text" id="address" placeholder="주소" readonly required />
+          <button type="button" id="findAddressButton">주소 찾기</button>
+        </div>
+
         <input type="text" id="phone" placeholder="전화번호 (선택)" />
         <input type="text" id="birth" placeholder="생년원일 (선택)" />
         <input type="text" id="gender" placeholder="성별 (선택)" />
@@ -30,15 +37,14 @@
     </div>
   </div>
 </div>
-  <div class="intros-container">
-    <div class="intro-control signin-intro">
-      <div class="intro-control__inner">
-        <img class="login_img" src="/static/5.jpg" alt="">
-      </div>
+<div class="intros-container">
+  <div class="intro-control signin-intro">
+    <div class="intro-control__inner">
+      <img class="login_img" src="/static/5.jpg" alt="">
     </div>
   </div>
+</div>
 
-</body>
 <script>
   function goToMainPage() {
     window.location.href = "/main";
@@ -47,6 +53,16 @@
   function goToLoginPage() {
     window.location.href = "/main/login";
   }
+
+  document.getElementById('findAddressButton').addEventListener('click', function () {
+    // Daum 우편번호 서비스 팝업 열기
+    new daum.Postcode({
+      oncomplete: function (data) {
+        // 선택한 주소 정보를 입력란에 넣기
+        document.getElementById('address').value = data.address;
+      }
+    }).open();
+  });
 
   document.getElementById('signup-form').addEventListener('submit', function (event) {
     event.preventDefault();
@@ -83,4 +99,5 @@
     xhr.send(JSON.stringify(formData));
   });
 </script>
+</body>
 </html>
