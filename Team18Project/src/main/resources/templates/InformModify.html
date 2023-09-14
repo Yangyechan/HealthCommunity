@@ -2,45 +2,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 수정</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
-<div>
-    <h1 th:text="${article.title}"></h1>
+<div class="container mt-5">
+    <h1 th:text="${article.title}" class="display-4"></h1>
     <p>작성자: <span th:text="${article.user.username}"></span></p>
     <p>작성일: <span th:text="${article.created_at}"></span></p>
     <p>태그: <span th:text="${article.tag}"></span></p>
     <p>내용: <span th:text="${article.content}"></span></p>
 
-    <div th:each="img : ${articleImgs}">
+    <div th:each="img : ${articleImgs}" class="mb-3">
         <button th:data-imgId="${img.id}"
-                onclick="confirmDelete(this.getAttribute('data-imgId'))">이미지 삭제</button>
-        <img th:src="@{${img.img_url}}" alt="Image">
+                onclick="confirmDelete(this.getAttribute('data-imgId'))"
+                class="btn btn-danger">이미지 삭제
+        </button>
+        <img th:src="@{${img.img_url}}" alt="Image" class="img-fluid">
     </div>
 
     <div id="editForm">
         <!-- 수정 가능한 입력 폼 -->
-        <label for="title">제목</label>
-        <input type="text" id="title" name="title" th:value="${article.title}"><br>
-        <label for="tag">태그</label>
-        <select id="tag" name="tag" required>
-            <option value="기타">기타</option>
-            <option value="벌크업">벌크업</option>
-            <option value="다이어트">다이어트</option>
-            <option value="공지사항" th:if="${#authentication.principal.username == 'admin'}">공지사항</option>
-        </select><br>
-        <label for="content">내용</label>
-        <textarea id="content" name="content" rows="4" cols="50" th:text="${article.content}"></textarea><br>
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" id="title" name="title" th:value="${article.title}" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="tag">태그</label>
+            <select id="tag" name="tag" required class="form-control">
+                <option value="기타">기타</option>
+                <option value="벌크업">벌크업</option>
+                <option value="다이어트">다이어트</option>
+                <option value="공지사항" th:if="${#authentication.principal.username == 'admin'}">공지사항
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="content">내용</label>
+            <textarea id="content" name="content" rows="4" cols="50" th:text="${article.content}"
+                      class="form-control"></textarea>
+        </div>
 
         <!-- 이미지 업로드 입력 필드 -->
-        <label for="images">이미지 업로드</label>
-        <input type="file" id="images" name="images" accept="image/*" multiple>
+        <div class="form-group">
+            <label for="images">이미지 업로드</label>
+            <input type="file" id="images" name="images" accept="image/*" multiple class="form-control-file">
+        </div>
 
-        <button type="button" onclick="saveArticle()">수정</button>
-        <button type="button" onclick="window.history.back()">취소</button>
+        <button type="button" onclick="saveArticle()" class="btn btn-primary">수정</button>
+        <button type="button" onclick="window.history.back()" class="btn btn-secondary">취소</button>
     </div>
-
 
     <script>
         // 수정 폼 보이기
@@ -60,7 +74,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body:JSON.stringify({
+                    body: JSON.stringify({
                         title: updatedTitle,
                         tag: updatedTag,
                         content: updatedContent
@@ -71,7 +85,6 @@
                             alert("게시글이 수정되었습니다.");
                             // 이미지 업로드 요청
                             if (images.length > 0) {
-
                                 const imagesFormData = new FormData();
                                 for (let i = 0; i < images.length; i++) {
                                     imagesFormData.append("images", images[i]);
@@ -105,11 +118,13 @@
                     });
             }
         }
+
         function confirmDelete(imageId) {
             if (confirm("이미지를 삭제하시겠습니까?")) {
                 deleteImage(imageId);
             }
         }
+
         function deleteImage(imageId) {
             fetch(`/healthInform/modify/delete/${imageId}`, {
                 method: 'DELETE'

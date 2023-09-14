@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,400;0,500;0,600;0,700;1,500;1,600&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <title>운동 정보 사이트</title>
     <link rel="stylesheet" href="/static/login.css">
+    <style>
+        .signin-form {
+            text-align: left;
+        }
+
+        .signin-form button {
+            margin-top: 10px;
+        }
+
+        .additional-links {
+            text-align: right;
+            margin-top: 10px;
+            padding-right: 20px;
+        }
+
+        .additional-links a {
+            text-decoration: none;
+            color: #333;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -12,16 +37,20 @@
         <div class="form-control signin-form">
             <form action="#" id="login-form">
                 <h2>로그인</h2>
-                <input type="text" id="username" placeholder="아이디" required />
-                <input type="password" id="password" placeholder="비밀번호" required />
+                <input type="text" id="username" placeholder="아이디" required /><br>
+                <input type="password" id="password" placeholder="비밀번호" required /><br>
                 <button>로그인</button>
             </form>
+            <!-- 회원가입 및 비밀번호 찾기 버튼 -->
+            <div class="additional-links">
+                <h3><a href="#" onclick="goToSignUpPage()">회원가입</a></h3>
+            </div>
         </div>
     </div>
     <div class="intros-container">
         <div class="intro-control signin-intro">
             <div class="intro-control__inner">
-                <img class="login_img" src="/static/4.jpg" alt="">
+                <img class="login_img" src="/static/2.jpeg" alt="">
             </div>
         </div>
     </div>
@@ -71,4 +100,3 @@
 
 </script>
 </html>
-

@@ -2,34 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>헬스 용품 대여 게시판 글 작성</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<h1>헬스 용품 대여  페이지</h1>
-<p>제목,내용은 필수 항목입니다. </p>
-<form id="articleForm" enctype="multipart/form-data">
-    <label for="title">제목:</label>
-    <input type="text" id="title" name="title" required><br>
+<div class="container mt-5 p-4 rounded shadow bg-dark">
+    <h1 class="display-4 text-white">헬스 용품 대여 페이지</h1>
+    <p class="text-white">제목과 내용은 필수 항목입니다.</p>
+    <form id="articleForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title" class="form-label text-white">제목:</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
 
-    <label for="tags">태그:</label>
-    <select id="tags" name="tags" required>
-        <option value="기타">기타</option>
-        <option value="공지사항" th:if="${#authentication.principal.username == 'admin'}">공지사항</option>
-    </select>
+        <div class="form-group">
+            <label for="tags" class="form-label text-white">태그:</label>
+            <select class="form-select" id="tags" name="tags" required>
+                <option value="기타">기타</option>
+                <option value="공지사항" th:if="${#authentication.principal.username == 'admin'}">공지사항</option>
+            </select>
+        </div>
 
-    <label for="content">내용:</label><br>
-    <textarea id="content" name="content" rows="5" cols="40" required></textarea><br>
-    <p>사진을 여러 개 올리고 싶으시면 한 번에 다 선택해 주세요!</p>
-    <label for="images">사진 첨부:</label>
-    <input type="file" id="images" name="images" accept="image/*" multiple><br>
+        <div class="form-group">
+            <label for="content" class="form-label text-white">내용:</label>
+            <textarea class="form-control" id="content" name="content" rows="5" cols="40" required></textarea>
+        </div>
 
+        <p class="text-white">사진을 여러 개 올리고 싶으시면 한 번에 다 선택해 주세요!</p>
 
-    <button type="submit">글 작성</button>
-</form>
+        <div class="form-group">
+            <label for="images" class="form-label text-white">사진 첨부:</label>
+            <input type="file" class="form-control" id="images" name="images" accept="image/*" multiple>
+        </div>
 
-<button onclick="logout()">로그아웃</button>
-<button onclick="main()">메인페이지</button>
-<button onclick="diet()">돌아가기</button>
+        <button type="submit" class="btn btn-primary">글 작성</button>
+    </form>
+
+    <button class="btn btn-danger mt-3" onclick="logout()">로그아웃</button>
+    <button class="btn btn-secondary mt-3" onclick="main()">메인페이지</button>
+    <button class="btn btn-secondary mt-3" onclick="diet()">돌아가기</button>
+</div>
+
+<!-- Bootstrap JavaScript (jQuery와 Popper.js 포함) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 <script>
     function logout() {

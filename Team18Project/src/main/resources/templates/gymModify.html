@@ -2,130 +2,142 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>헬스장 정보 수정</title>
+    <!-- Bootstrap CSS link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
-<div>
-    <h1 th:text="${article.title}"></h1>
+<div class="container mt-5">
+    <h1 class="display-4" th:text="${article.title}"></h1>
     <p>위치: <span th:text="${article.location}"></span></p>
     <p>전화번호: <span th:text="${article.phone}"></span></p>
     <p>내용: <span th:text="${article.content}"></span></p>
 
-    <div th:each="img : ${articleImgs}">
-        <button th:data-imgId="${img.id}"
-                onclick="confirmDelete(this.getAttribute('data-imgId'))">이미지 삭제</button>
-        <img th:src="@{${img.img_url}}" alt="Image">
+    <div th:each="img : ${articleImgs}" class="mb-3">
+        <button th:data-imgId="${img.id}" onclick="confirmDelete(this.getAttribute('data-imgId'))"
+                class="btn btn-danger">이미지 삭제
+        </button>
+        <img th:src="@{${img.img_url}}" alt="Image" class="img-thumbnail">
     </div>
 
     <div id="editForm">
-        <!-- 수정 가능한 입력 폼 -->
-        <label for="title">헬스장 이름</label>
-        <input type="text" id="title" name="title" th:value="${article.title}">
-        <label for="location">헬스장 위치</label>
-        <input type="text" id="location" name="location" th:value="${article.location}">
-        <label for="phone">전화번호</label>
-        <input type="text" id="phone" name="phone" th:value="${article.phone}">
-        <label for="content">내용</label>
-        <textarea id="content" name="content" rows="4" cols="50" th:text="${article.content}"></textarea>
+        <!-- Editable input fields -->
+        <label for="title" class="form-label">헬스장 이름</label>
+        <input type="text" id="title" name="title" th:value="${article.title}" class="form-control">
+        <label for="location" class="form-label">헬스장 위치</label>
+        <input type="text" id="location" name="location" th:value="${article.location}" class="form-control">
+        <label for="phone" class="form-label">전화번호</label>
+        <input type="text" id="phone" name="phone" th:value="${article.phone}" class="form-control">
+        <label for="content" class="form-label">내용</label>
+        <textarea id="content" name="content" rows="4" cols="50" th:text="${article.content}"
+                  class="form-control"></textarea>
 
-        <!-- 이미지 업로드 입력 필드 -->
-        <label for="images">이미지 업로드</label>
-        <input type="file" id="images" name="images" accept="image/*" multiple>
+        <!-- Image upload input field -->
+        <label for="images" class="form-label">이미지 업로드</label>
+        <input type="file" id="images" name="images" accept="image/*" multiple class="form-control-file mt-2">
 
-        <button type="button" onclick="saveArticle()">수정</button>
-        <button type="button" onclick="window.history.back()">취소</button>
+        <button type="button" onclick="saveArticle()" class="btn btn-primary mt-2">수정</button>
+        <button type="button" onclick="window.history.back()" class="btn btn-secondary mt-2">취소</button>
     </div>
+</div>
 
+<!-- Bootstrap JavaScript and Popper.js, jQuery scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        // 수정 폼 보이기
-        document.getElementById("editForm").style.display = "block";
+<script>
+    // 수정 폼 보이기
+    document.getElementById("editForm").style.display = "block";
 
-        function saveArticle() {
-            const updatedTitle = document.getElementById("title").value;
-            const updatedLocation = document.getElementById("location").value; // 헬스장 위치
-            const updatedContent = document.getElementById("content").value;
-            const updatedPhone = document.getElementById("phone").value; // 전화번호
+    function saveArticle() {
+        const updatedTitle = document.getElementById("title").value;
+        const updatedLocation = document.getElementById("location").value; // 헬스장 위치
+        const updatedContent = document.getElementById("content").value;
+        const updatedPhone = document.getElementById("phone").value; // 전화번호
+        // 이미지 업로드 입력 필드 스타일 조정
+        const imagesInput = document.getElementById("images");
+        imagesInput.classList.add("form-control");
 
-            if (confirm("정말로 수정 하시겠습니까?")) {
-                const imagesInput = document.getElementById("images");
-                const images = imagesInput.files;
+        if (confirm("정말로 수정 하시겠습니까?")) {
+            const imagesInput = document.getElementById("images");
+            const images = imagesInput.files;
 
-                fetch(`/gym/modify/` + [[${article.id}]], {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body:JSON.stringify({
-                        title: updatedTitle,
-                        location: updatedLocation,
-                        content: updatedContent,
-                        phone: updatedPhone, // 업데이트된 전화번호 추가
-                    })
+            fetch(`/gym/modify/` + [[${article.id}]], {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: updatedTitle,
+                    location: updatedLocation,
+                    content: updatedContent,
+                    phone: updatedPhone, // 업데이트된 전화번호 추가
                 })
-                    .then(response => {
-                        if (response.ok) {
-                            alert("게시글이 수정되었습니다.");
-                            // 이미지 업로드 요청
-                            if (images.length > 0) {
-
-                                const imagesFormData = new FormData();
-                                for (let i = 0; i < images.length; i++) {
-                                    imagesFormData.append("images", images[i]);
-                                }
-                                fetch(`/gym/post/Images/` + [[${article.id}]], {
-                                    method: 'POST',
-                                    body: imagesFormData
-                                })
-                                    .then(imageResponse => {
-                                        if (imageResponse.ok) {
-                                            alert("이미지 업로드 완료");
-                                        } else {
-                                            alert("이미지 업로드 실패");
-                                        }
-                                        window.history.back(); // 수정 완료 후 뒤로 가기
-                                    })
-                                    .catch(error => {
-                                        console.error('Error:', error);
-                                        alert("이미지 업로드 오류 발생. 다시 시도해주세요.");
-                                    });
-                            } else {
-                                window.history.back(); // 이미지 없이 수정 완료 후 뒤로 가기
-                            }
-                        } else {
-                            alert("게시글 수정에 실패하였습니다.");
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert("게시글 수정 오류 발생. 다시 시도해주세요.");
-                    });
-            }
-        }
-        function confirmDelete(imageId) {
-            if (confirm("이미지를 삭제하시겠습니까?")) {
-                deleteImage(imageId);
-            }
-        }
-        function deleteImage(imageId) {
-            fetch(`/gym/delete/images/${imageId}`, {
-                method: 'DELETE'
             })
                 .then(response => {
                     if (response.ok) {
-                        alert("이미지가 삭제되었습니다.");
-                        window.location.reload(); // 이미지 삭제 후 페이지 새로고침
+                        alert("게시글이 수정되었습니다.");
+                        // 이미지 업로드 요청
+                        if (images.length > 0) {
+
+                            const imagesFormData = new FormData();
+                            for (let i = 0; i < images.length; i++) {
+                                imagesFormData.append("images", images[i]);
+                            }
+                            fetch(`/gym/post/Images/` + [[${article.id}]], {
+                                method: 'POST',
+                                body: imagesFormData
+                            })
+                                .then(imageResponse => {
+                                    if (imageResponse.ok) {
+                                        alert("이미지 업로드 완료");
+                                    } else {
+                                        alert("이미지 업로드 실패");
+                                    }
+                                    window.history.back(); // 수정 완료 후 뒤로 가기
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert("이미지 업로드 오류 발생. 다시 시도해주세요.");
+                                });
+                        } else {
+                            window.history.back(); // 이미지 없이 수정 완료 후 뒤로 가기
+                        }
                     } else {
-                        alert("이미지 삭제에 실패하였습니다.");
+                        alert("게시글 수정에 실패하였습니다.");
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert("오류가 발생하였습니다. 다시 시도해주세요.");
+                    alert("게시글 수정 오류 발생. 다시 시도해주세요.");
                 });
         }
-    </script>
-</div>
+    }
+
+    function confirmDelete(imageId) {
+        if (confirm("이미지를 삭제하시겠습니까?")) {
+            deleteImage(imageId);
+        }
+    }
+
+    function deleteImage(imageId) {
+        fetch(`/gym/delete/images/${imageId}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("이미지가 삭제되었습니다.");
+                    window.location.reload(); // 이미지 삭제 후 페이지 새로고침
+                } else {
+                    alert("이미지 삭제에 실패하였습니다.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("오류가 발생하였습니다. 다시 시도해주세요.");
+            });
+    }
+</script>
 </body>
 </html>

@@ -2,28 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- 반응형을 위한 뷰포트 설정 -->
     <title>트레이너 정보 작성</title>
+    <!-- Bootstrap CSS CDN 추가 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-<body>
-<h1>트레이너 정보 작성</h1>
+<body class="bg-light">
 
-<form id="PostForm">
+<div class="container mt-5"> <!-- 컨테이너 시작 -->
+    <h1 class="text-center mb-4">트레이너 정보 작성</h1>
 
-    <label for="title">트레이너 이름:</label>
-    <input type="text" id="title" name="title" required><br>
+    <form id="PostForm">
 
-    <label for="content">트레이너 정보:</label><br>
-    <textarea id="content" name="content" rows="4" cols="50" required></textarea><br>
+        <div class="form-group">
+            <label for="title">트레이너 이름:</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
 
-    <p>사진을 여러 개 올리고 싶으시면 한 번에 다 선택해 주세요!</p>
-    <label for="images">사진 첨부:</label>
-    <input type="file" id="images" name="images" accept="image/*" multiple><br>
+        <div class="form-group">
+            <label for="content">트레이너 정보:</label>
+            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+        </div>
 
-    <button type="submit">글 작성</button>
-</form>
+        <div class="form-group">
+            <p>사진을 여러 개 올리고 싶으시면 한 번에 다 선택해 주세요!</p>
+            <label for="images">사진 첨부:</label>
+            <input type="file" class="form-control-file" id="images" name="images" accept="image/*" multiple>
+        </div>
 
-<!-- 뒤로 가기 버튼 -->
-<button onclick="back()">돌아가기</button>
+        <button type="submit" class="btn btn-primary">글 작성</button>
+    </form>
+
+    <button class="btn btn-secondary mt-3" onclick="back()">돌아가기</button> <!-- 버튼 스타일 적용 -->
+
+</div> <!-- 컨테이너 끝 -->
+
+<!-- jQuery & Bootstrap JS CDN 추가 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 <script>
     function back() {

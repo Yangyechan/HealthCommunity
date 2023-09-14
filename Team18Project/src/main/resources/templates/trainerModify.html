@@ -2,33 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>트레이너 정보 수정</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        /* 추가적인 사용자 정의 스타일은 여기에 작성합니다. */
+        .container {
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
 
-<h1>트레이너 <span th:text= "${trainer.title}"></span></h1>
-<p>트레이너 설명: <span th:text="${trainer.content}"></span></p>
+<div class="container">
+    <h1 class="display-4">트레이너 <span th:text="${trainer.title}"></span></h1>
+    <p class="lead">트레이너 설명: <span th:text="${trainer.content}"></span></p>
 
+    <div class="row">
+        <div th:each="img : ${trainerImg}" class="col-md-4">
+            <div class="card">
+                <img th:src="@{${img.imgUrl}}" alt="Image" class="card-img-top">
+                <div class="card-body">
+                    <button th:data-imgId="${img.id}" class="btn btn-danger btn-block"
+                            onclick="confirmDelete(this.getAttribute('data-imgId'))">이미지 삭제</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div th:each="img : ${trainerImg}">
-    <button th:data-imgId="${img.id}"
-            onclick="confirmDelete(this.getAttribute('data-imgId'))">이미지 삭제</button>
-    <img th:src="@{${img.imgUrl}}" alt="Image">
+    <div id="editForm" class="mt-5">
+        <!-- 수정 가능한 입력 폼 -->
+        <form>
+            <div class="form-group">
+                <label for="title">트레이너 이름</label>
+                <input type="text" id="title" name="title" class="form-control" th:value="${trainer.title}">
+            </div>
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea id="content" name="content" rows="4" class="form-control"
+                          th:text="${trainer.content}"></textarea>
+            </div>
+
+            <!-- 이미지 업로드 입력 필드 -->
+            <div class="form-group">
+                <label for="images">이미지 업로드</label><br>
+                <input type="file" id="images" name="images" accept="image/*" multiple class="form-control-file">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="saveArticle()">수정</button>
+            <button type="button" class="btn btn-secondary" onclick="window.history.back()">취소</button>
+        </form>
+    </div>
 </div>
 
-<div id="editForm">
-    <!-- 수정 가능한 입력 폼 -->
-    <label for="title">트레이너 이름</label>
-    <input type="text" id="title" name="title" th:value="${trainer.title}">
-    <label for="content">내용</label>
-    <textarea id="content" name="content" rows="4" cols="50" th:text="${trainer.content}"></textarea><br>
+<!-- Bootstrap JS와 Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- 이미지 업로드 입력 필드 -->
-    <label for="images">이미지 업로드</label><br>
-    <input type="file" id="images" name="images" accept="image/*" multiple>
-    <button type="button" onclick="saveArticle()">수정</button>
-    <button type="button" onclick="window.history.back()">취소</button>
-</div>
 <script>
 
     function saveArticle() {
@@ -47,7 +79,6 @@
                 body:JSON.stringify({
                     title: updatedTitle,
                     content: updatedContent
-
                 })
             })
                 .then(response => {
@@ -95,6 +126,7 @@
             deleteImage(imageId);
         }
     }
+
     function deleteImage(imageId) {
         fetch(`/gym/trainer/delete/images/${imageId}`, {
             method: 'DELETE'

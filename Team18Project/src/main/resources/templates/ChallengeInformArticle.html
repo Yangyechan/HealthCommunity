@@ -2,67 +2,80 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <title>챌린지 게시물 상세</title>
 </head>
 <body>
+<div class="container mt-5">
+  <h1 th:text="${article.title}"></h1>
+  <p>작성자: <span th:text="${article.user.username}"></span></p>
+  <p>작성일: <span th:text="${article.created_at}"></span></p>
+  <p>태그: <span th:text="${article.tag}"></span></p>
+  <p>내용: <span th:text="${article.content}"></span></p>
 
-<h1 th:text="${article.title}"></h1>                           <p>작성자: <span th:text="${article.user.username}"></span></p>   <p>작성일: <span th:text="${article.created_at}"></span></p>
-<p>태그: <span th:text="${article.tag}"></span></p>
-<p>내용: <span th:text="${article.content}"></span></p>
+  <p>좋아요 수: <span th:text="${like}"></span></p>
 
-<p>좋아요 수: <span th:text="${like}"></span></p>
+  <!-- 게시물에 연결된 이미지들 표시 -->
+  <div th:each="img : ${articleImgs}" class="my-3">
+    <p>Image URL: <span th:text="${img.img_url}"></span></p>
+    <img th:src="@{${img.img_url}}" alt="Image" class="img-thumbnail">
+  </div>
 
-<!-- 게시물에 연결된 이미지들 표시 -->
-<div th:each="img : ${articleImgs}">
-  <p>Image URL: <span th:text="${img.img_url}"></span></p>
-  <img th:src="@{${img.img_url}}" alt="Image">
+  <!-- 댓글 작성 폼 -->
+  <form id="commentForm">
+    <div class="form-group">
+      <label for="comment">댓글 작성</label>
+      <textarea id="comment" name="comment" rows="4" cols="50" class="form-control"></textarea>
+    </div>
+    <button type="button" onclick="submitComment()" class="btn btn-primary">댓글 작성</button>
+  </form>
+
+  <!-- 댓글 목록 -->
+  <div>
+    <h2>댓글 목록</h2>
+    <ul class="list-group">
+      <th:block th:each="comment : ${articleComments}">
+        <li class="list-group-item">
+          <p th:text="${comment.id}" style="display: none;"></p> <!-- 숨겨진 p 태그 -->
+          <p th:text="${comment.content}"></p>
+          <p>작성자: <span th:text="${comment.user.username}"></span></p>
+          <p>작성일: <span th:text="${comment.created_at}"></span></p>
+          <!-- 댓글 작성자인 경우에만 삭제 버튼 표시 -->
+          <button th:if="${#authentication.principal.username == comment.user.username}"
+                  th:data-commentId="${comment.id}"
+                  onclick="deleteComment(this.getAttribute('data-commentId'))"
+                  class="btn btn-danger">댓글 삭제
+          </button>
+        </li>
+      </th:block>
+    </ul>
+  </div>
+
+  <!-- 좋아요 버튼 -->
+  <button th:if="${#authentication.principal.username != article.user.username}"
+          th:id="'likeButton-' + ${article.id}"
+          onclick="toggleLike()" class="btn btn-primary">좋아요
+  </button>
+
+  <!-- 게시글 수정 버튼 -->
+  <button th:if="${#authentication.principal.username == article.user.username}"
+          onclick="editArticle()" class="btn btn-warning">게시글 수정
+  </button>
+
+  <!-- 게시글 삭제 버튼 -->
+  <button th:if="${#authentication.principal.username == article.user.username}"
+          onclick="deleteArticle()" class="btn btn-danger">게시글 삭제
+  </button>
+
+  <!-- 뒤로 가기 버튼 -->
+  <button onclick="back()" class="btn btn-secondary">돌아가기</button>
 </div>
 
-<!-- 댓글 작성 폼 -->
-<form id="commentForm">
-  <label for="comment">댓글 작성</label>
-  <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
-  <button type="button" onclick="submitComment()">댓글 작성</button>
-</form>
-
-<!-- 댓글 목록 -->
-<div>
-  <h2>댓글 목록</h2>
-  <ul>
-    <th:block th:each="comment : ${articleComments}">
-      <li>
-        <p th:text="${comment.id}" style="display: none;"></p> <!-- 숨겨진 p 태그 -->
-        <p th:text="${comment.content}"></p>
-        <p>작성자: <span th:text="${comment.user.username}"></span></p>
-        <p>작성일: <span th:text="${comment.created_at}"></span></p>
-        <!-- 댓글 작성자인 경우에만 삭제 버튼 표시 -->
-        <button th:if="${#authentication.principal.username == comment.user.username}"
-                th:data-commentId="${comment.id}"
-                onclick="deleteComment(this.getAttribute('data-commentId'))">댓글 삭제</button>
-      </li>
-    </th:block>
-  </ul>
-</div>
-
-
-<!-- 좋아요 버튼 -->
-<button th:if="${#authentication.principal.username != article.user.username}"
-        th:id="'likeButton-' + ${article.id}"
-        onclick="toggleLike()">
-  좋아요
-</button>
-
-
-
-<!-- 게시글 수정 버튼 -->
-<button th:if="${#authentication.principal.username == article.user.username}"
-        onclick="editArticle()">게시글 수정</button>
-<!-- 게시글 삭제 버튼 -->
-<button th:if="${#authentication.principal.username == article.user.username}"
-        onclick="deleteArticle()">게시글 삭제</button>
-<!-- 뒤로 가기 버튼 -->
-<button onclick="back()">돌아가기</button>
-
+<!-- 부트스트랩 JavaScript 및 jQuery 스크립트 추가 -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
   function toggleLike() {

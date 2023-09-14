@@ -2,45 +2,85 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,400;0,500;0,600;0,700;1,500;1,600&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
   <title>ChallengeInform</title>
 </head>
 <body>
-<h1>챌린지 게시판</h1>
-<p>챌린지 게시판 입니다.</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">챌린지 게시판</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <button onclick="post()" class="btn btn-success">글 작성</button>
+      </li>
+      <li class="nav-item">
+        <button onclick="logout()" class="btn btn-danger">로그아웃</button>
+      </li>
+      <li class="nav-item">
+        <button onclick="main()" class="btn btn-primary">메인페이지</button>
+      </li>
+    </ul>
+  </div>
+</nav>
 
-<div class="search-buttons">
-  <label><input type="radio" name="searchOption" value="title"> 제목으로 검색</label>
-  <label><input type="radio" name="searchOption" value="all"> 전체 검색</label>
-  <button onclick="performSearch()">검색</button>
+<div class="container mt-5">
+  <h1>챌린지 게시판</h1>
+  <p>챌린지 게시판입니다.</p>
+
+  <div class="search-buttons mt-4">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="searchOption" id="searchTitle" value="title">
+      <label class="form-check-label" for="searchTitle">제목으로 검색</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="searchOption" id="searchAll" value="all">
+      <label class="form-check-label" for="searchAll">전체 검색</label>
+    </div>
+    <button onclick="performSearch()" class="btn btn-primary">검색</button>
+  </div>
+
+  <!-- ChallengeInform -->
+  <!-- 게시물 목록 출력 -->
+  <div th:each="article : ${views}" class="mt-4">
+    <div class="card">
+      <div class="card-body">
+        <p class="card-text">태그: <span th:text="${article.tag}"></span></p>
+        <h5 class="card-title"><a th:href="@{/challenge/pages/{id}(id=${article.id})}"
+                                  th:text="${article.title}"></a></h5>
+        <p class="card-text">작성자: <span th:text="${article.user.username}"></span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 페이지네이션 링크 -->
+  <div class="mt-4">
+    <ul class="pagination">
+      <li th:if="${views.hasPrevious()}" class="page-item">
+        <a th:href="@{/challenge/pages(page=${views.previousPageable().pageNumber})}" class="page-link">&laquo; 이전</a>
+      </li>
+      <li th:each="pageNumber : ${#numbers.sequence(0, views.totalPages - 1)}" class="page-item">
+        <a th:href="@{/challenge/pages(page=${pageNumber})}" th:text="${pageNumber + 1}" class="page-link"></a>
+      </li>
+      <li th:if="${views.hasNext()}" class="page-item">
+        <a th:href="@{/challenge/pages(page=${views.nextPageable().pageNumber})}" class="page-link">다음 &raquo;</a>
+      </li>
+    </ul>
+  </div>
 </div>
 
-<!-- ChallengeInform -->
-<!-- 게시물 목록 출력 -->
-<div th:each="article : ${views}">
-    <p>태그: <span th:text="${article.tag}"></span> 제목: <a th:href="@{/challenge/pages/{id}(id=${article.id})}" th:text="${article.title}"></a> 작성자: <span th:text="${article.user.username}"></span></p>
-    <!-- 추가적인 정보를 출력하거나 링크를 만들 수 있습니다. -->
-</div>
-
-
-<!-- 페이지네이션 링크 -->
-<div>
-  <ul class="pagination">
-    <li th:if="${views.hasPrevious()}">
-      <a th:href="@{/challenge/pages(page=${views.previousPageable().pageNumber})}">&laquo; 이전</a>
-    </li>
-    <li th:each="pageNumber : ${#numbers.sequence(0, views.totalPages - 1)}">
-      <a th:href="@{/challenge/pages(page=${pageNumber})}" th:text="${pageNumber + 1}"></a>
-    </li>
-    <li th:if="${views.hasNext()}">
-      <a th:href="@{/challenge/pages(page=${views.nextPageable().pageNumber})}">다음 &raquo;</a>
-    </li>
-  </ul>
-</div>
-
-
-<button onclick="post()">글작성</button>
-<button onclick="logout()">로그아웃</button>
-<button onclick="main()">메인페이지</button>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
   function logout() {
@@ -62,7 +102,7 @@
   function performSearch() {
     const selectedOption = document.querySelector('input[name="searchOption"]:checked').value;
 
-    if (selectedOption === "all"){
+    if (selectedOption === "all") {
       const page = 0;
       window.location.href = `/challenge/pages?page=${page}`;
       return;
@@ -79,14 +119,11 @@
     }
 
     const searchTerm = prompt("검색어를 입력하세요:");
-        if (searchTerm) {
-          const page = 0; // 이 부분에 원하는 페이지 번호를 설정하세요
-          window.location.href = `${url}?${selectedOption}=${searchTerm}&page=${page}`;
-        }
-
+    if (searchTerm) {
+      const page = 0; // 이 부분에 원하는 페이지 번호를 설정하세요
+      window.location.href = `${url}?${selectedOption}=${searchTerm}&page=${page}`;
+    }
   }
-
 </script>
-
 </body>
 </html>

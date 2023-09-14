@@ -2,17 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <title>커뮤니티 게시판</title>
 </head>
 <body>
-<h1>커뮤니티</h1>
-<p>환영합니다 커뮤니티 게시판 입니다.</p>
-<p>커뮤니티 게시판은 ( 자유게시판 오운완 챌린지 게시판)으로 구성되어 있습니다.</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">커뮤니티 게시판</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <button class="btn btn-link nav-link" onclick="logout()">로그아웃</button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-link nav-link" onclick="main()">메인페이지</button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-link nav-link" onclick="FreeBoard()">자유 게시판</button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-link nav-link" onclick="Challenge()">오운완 챌린지</button>
+      </li>
+    </ul>
+  </div>
+</nav>
 
-<button onclick="logout()">로그아웃</button>
-<button onclick="main()">메인페이지</button>
-<button onclick="FreeBoard()">자유 게시판</button>
-<button onclick="Challenge()">오운완 챌린지</button>
+<div class="container mt-5">
+  <h1>커뮤니티</h1>
+  <p>환영합니다. 커뮤니티 게시판입니다.</p>
+  <p>커뮤니티 게시판은 자유게시판, 오운완 챌린지 게시판으로 구성되어 있습니다.</p>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <script>
   function logout() {
     document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -32,7 +60,6 @@
   function FreeBoard () {
     window.location.href = "/community/FreeBoard";
   }
-
 </script>
 
 </body>
