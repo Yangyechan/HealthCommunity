@@ -100,7 +100,124 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-    // Your JavaScript functions remain unchanged
+
+        function back() {
+        // 이전 페이지로 이동
+        window.history.back();
+    }
+
+        function editArticle() {
+        window.location.href = "/gym/modify/" + [[${gym.id}]]
+    }
+
+        function postTrainer(){
+        window.location.href = "/gym/trainer/post"
+    }
+
+        function deleteArticle() {
+        if (confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
+        fetch(`/gym/trainer/delete/` +[[${gym.id}]], {
+        method: 'DELETE'
+    })
+        .then(response => {
+        if (response.ok) {
+        // 게시물 삭제 성공 시 처리
+        alert("게시물이 삭제되었습니다.");
+        window.location.href = "/gym/main"
+    } else {
+        // 게시물 삭제 실패 시 처리
+        alert("게시물 삭제에 실패하였습니다.");
+    }
+    })
+        .catch(error => {
+        console.error('Error:', error);
+        alert("오류가 발생하였습니다. 다시 시도해주세요.");
+    });
+    }
+    }
+
+        function submitRating() {
+        const gymId = document.getElementById("gymId").value;
+        const rating = document.getElementById("rating").value;
+
+        fetch(`/gym/grade/${gymId}`, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+    },
+        body: JSON.stringify(rating)
+    })
+        .then(response => {
+        if (response.ok) {
+        // 평점 부여 성공 시 처리
+        alert("평점이 부여되었습니다.");
+        // 평점 부여 폼 숨기기
+        document.getElementById("ratingForm").style.display = "none";
+        // 페이지 새로고침
+        window.location.reload();
+    } else {
+        // 평점 부여 실패 시 처리
+        alert("평점 부여에 실패하였습니다.");
+    }
+    })
+        .catch(error => {
+        console.error('Error:', error);
+        alert("오류가 발생하였습니다. 다시 시도해주세요.");
+    });
+    }
+
+        function deleteComment(commentId) {
+        if (confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
+        fetch(`/gym/comment/delete/${commentId}`, {
+        method: 'DELETE'
+    })
+        .then(response => {
+        if (response.ok) {
+        // 댓글 삭제 성공 시 처리
+        alert("댓글이 삭제되었습니다.");
+        // 페이지 새로고침
+        window.location.reload();
+    } else {
+        // 댓글 삭제 실패 시 처리
+        alert("댓글 삭제에 실패하였습니다.");
+    }
+    })
+        .catch(error => {
+        console.error('Error:', error);
+        alert("오류가 발생하였습니다. 다시 시도해주세요.");
+    });
+    }
+    }
+
+        function submitComment() {
+        const commentText = document.getElementById("comment").value;
+
+        fetch(`/gym/comment/` + [[${gym.id}]], {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+    },
+        body: JSON.stringify({
+        comment: commentText
+    })
+    })
+        .then(response => {
+        if (response.ok) {
+        // 댓글 작성 성공 시 처리
+        alert("댓글이 작성되었습니다.");
+        // 새로고침
+        window.location.href = "/gym/" + [[${gym.id}]]
+    } else {
+        // 댓글 작성 실패 시 처리
+        alert("댓글 작성에 실패하였습니다.");
+    }
+    })
+        .catch(error => {
+        console.error('Error:', error);
+        alert("오류가 발생하였습니다. 다시 시도해주세요.");
+    });
+    }
+
 </script>
 </body>
 </html>
