@@ -1,4 +1,4 @@
-# Health Community
+# ControlFit (헬스 커뮤니티)
 
 <br>
 
