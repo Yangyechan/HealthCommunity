@@ -41,7 +41,7 @@
 - ERD 설계
 - 데이터베이스 구축
 - 로그인/회원가입 기능 구현
-- 유저 등급 제도 구현
+- 마이페이지 구현
 - CRUD 구현
 - AWS 서버 구축
 - GitHub Actions와 AWS CodeDeploy를 이용한 CI/CD 환경 구축
